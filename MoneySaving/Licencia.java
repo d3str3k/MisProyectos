@@ -21,7 +21,7 @@ public class Licencia extends JFrame implements ActionListener, ChangeListener{
         Login ventanaLogin = new Login();
         nombre = ventanaLogin.usuario.getName();
 
-        label1 = new JLabel("T�RMINOS Y CONDICIONES");
+        label1 = new JLabel("TÉRMINOS Y CONDICIONES");
         label1.setBounds(215,5,250,30);
         label1.setFont(new Font("Andale Mono", 1, 14));
         label1.setForeground(new Color(255,255,255));
@@ -30,7 +30,7 @@ public class Licencia extends JFrame implements ActionListener, ChangeListener{
         textarea1 = new JTextArea();
         textarea1.setEditable(false); // El usuario no podrá modificar el texto que esté dentro de JTextArea
         textarea1.setFont(new Font("Andale Mono", 0, 9));
-        textarea1.setText("\n\n \t\t\t     T�RMINOS Y CONDICIONES");
+        textarea1.setText("\n\n \t\t\t     TÉRMINOS Y CONDICIONES");
         textarea1.setBackground(new Color(0,0,0));
         textarea1.setForeground(new Color(0,255,0));
         scrollpane1 = new JScrollPane(textarea1);
@@ -89,7 +89,7 @@ public class Licencia extends JFrame implements ActionListener, ChangeListener{
             ventanaLogin.setVisible(true);
             ventanaLogin.setResizable(false);  
             ventanaLogin.setLocationRelativeTo(null);
-            this.dispose(); //dispose() es un m�todo que hace que la ventana JFrame sea destruida y limpiada del sistema ¿Qué es mejor: invisibilizar esta ventana o eliminarla?
+            this.dispose(); //dispose() es un m�todo que hace que la ventana JFrame sea destruida y limpiada del sistema ¿Qué es mejor: invisibilizar esta ventana o eliminarla?
         }
     }
     

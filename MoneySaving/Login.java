@@ -14,17 +14,13 @@ public class Login extends JFrame implements ActionListener {
     private JLabel label1, label2, label3, label4; //Variables
     private JButton boton1; // BotÃ³n para ingresar el PIN
     public static String pin = "";
-<<<<<<< HEAD
     public static Usuario usuario = new Usuario("");
-=======
-    public static String nombre ="Máximo";
->>>>>>> origin/master
     
     public Login () {
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE); //El programa no quedarÃ¡ en segundo plano (muere) cuando se cierra la interfaz
-        // La interfaz gráfica tiene 3 características fuera de los componentes: el tÃ­tulo, un icono y el background. Estos componentes se indican en el constructor
-        setTitle("Bienvenido"); //Inserta el título
+        // La interfaz grï¿½fica tiene 3 caracterï¿½sticas fuera de los componentes: el tÃ­tulo, un icono y el background. Estos componentes se indican en el constructor
+        setTitle("Bienvenido"); //Inserta el tï¿½tulo
         getContentPane().setBackground(new Color(0, 0, 0)); //Selecciona el color del background con un RGB
         setIconImage(new ImageIcon(getClass().getResource("./images/enigma-icon.png")).getImage()); //Coloca icono
         
@@ -37,10 +33,10 @@ public class Login extends JFrame implements ActionListener {
         ImageIcon imageIcon = new ImageIcon(getClass().getResource("./images/enigma-icon.png"));
         Image image = imageIcon.getImage();//1
         Image newimage = image.getScaledInstance(120,105, java.awt.Image.SCALE_SMOOTH);//2
-        imageIcon = new ImageIcon(newimage);//3 estas tres líneas sirven para que la imagen se cargue correctamente
+        imageIcon = new ImageIcon(newimage);//3 estas tres lï¿½neas sirven para que la imagen se cargue correctamente
         label1 = new JLabel(imageIcon); //carga la imagen cargada en al varaible imagen en la label1
         label1.setBounds(60,0, 229, 200); //Seleccionar dimensiones y coordenadas en pÃ­xeles (derecha, abajo, ancho, alto)
-        add(label1); //todo lo anterior se añade a label1
+        add(label1); //todo lo anterior se aï¿½ade a label1
         
         label2 = new JLabel("MoneySaving");
         label2.setBounds(105,175,300,30);
@@ -54,10 +50,10 @@ public class Login extends JFrame implements ActionListener {
         label3.setForeground(new Color(255,255,255)); //Seleccionar color texto
         add(label3);
         
-        label4 = new JLabel("©Enigma");
+        label4 = new JLabel("ï¿½Enigma");
         label4.setBounds(150,375,300,30);
         label4.setFont(new Font("Andale Mono", 1, 12)); //Seleccionar la fuente, estilo (cursiva,...), tamaÃ±o (en pÃ­xeles)
-        label4.setForeground(new Color(0,0,0)); //Seleccionar color texto
+        label4.setForeground(new Color(255,255,255)); //Seleccionar color texto
         add(label4);
         
         textfield1 = new JTextField();
@@ -100,7 +96,7 @@ public class Login extends JFrame implements ActionListener {
     		
     	} catch (FileNotFoundException exc1) {
     		try {
-    			JOptionPane.showMessageDialog(null,"Registro completado con éxito. Su PIN es: " + pin, "Registro", JOptionPane.INFORMATION_MESSAGE);
+    			JOptionPane.showMessageDialog(null, "Registro completado con ï¿½xito. Su PIN es: " + pin, "Registro", JOptionPane.INFORMATION_MESSAGE);
 				register(pin, false);
 				valid_pin = pin;
 				registered = true;
@@ -113,7 +109,7 @@ public class Login extends JFrame implements ActionListener {
 			}
     	} catch (NotRegisteredException exc2) {
     		try {
-    			JOptionPane.showMessageDialog(null,"Registro completado con éxito. Su PIN es: " + pin, "Registro", JOptionPane.INFORMATION_MESSAGE);
+    			JOptionPane.showMessageDialog(null,"Registro completado con ï¿½xito. Su PIN es: " + pin, "Registro", JOptionPane.INFORMATION_MESSAGE);
 				register(pin, true);
 				valid_pin = pin;
 				registered = true;
@@ -163,11 +159,8 @@ public class Login extends JFrame implements ActionListener {
     	PrintWriter pw = new PrintWriter("database.txt");
 		pw.println(pin);
 		pw.close();
-<<<<<<< HEAD
 		String name_variable = JOptionPane.showInputDialog("Introduzca su nombre");
 		usuario.setName(name_variable);
-=======
->>>>>>> origin/master
     }
     
     @Override
