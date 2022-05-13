@@ -19,7 +19,7 @@ public class Licencia extends JFrame implements ActionListener, ChangeListener{
         getContentPane().setBackground(new Color(0,0,0));
         setIconImage(new ImageIcon(getClass().getResource("./images/enigma-icon.png")).getImage());
         Login ventanaLogin = new Login();
-        nombre = ventanaLogin.nombre;
+        nombre = ventanaLogin.usuario.getName();
 
         label1 = new JLabel("TÉRMINOS Y CONDICIONES");
         label1.setBounds(215,5,250,30);

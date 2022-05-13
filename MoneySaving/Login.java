@@ -6,8 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 import java.awt.*;
-/**
- *
+/*
  * @author maximo
  */
 public class Login extends JFrame implements ActionListener {
@@ -15,13 +14,17 @@ public class Login extends JFrame implements ActionListener {
     private JLabel label1, label2, label3, label4; //Variables
     private JButton boton1; // Botón para ingresar el PIN
     public static String pin = "";
+<<<<<<< HEAD
+    public static Usuario usuario = new Usuario("");
+=======
     public static String nombre ="M�ximo";
+>>>>>>> origin/master
     
     public Login () {
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE); //El programa no quedará en segundo plano (muere) cuando se cierra la interfaz
-        // La interfaz gráfica tiene 3 características fuera de los componentes: el título, un icono y el background. Estos componentes se indican en el constructor
-        setTitle("Bienvenido"); //Inserta el título
+        // La interfaz gr�fica tiene 3 caracter�sticas fuera de los componentes: el título, un icono y el background. Estos componentes se indican en el constructor
+        setTitle("Bienvenido"); //Inserta el t�tulo
         getContentPane().setBackground(new Color(0, 0, 0)); //Selecciona el color del background con un RGB
         setIconImage(new ImageIcon(getClass().getResource("./images/enigma-icon.png")).getImage()); //Coloca icono
         
@@ -34,10 +37,10 @@ public class Login extends JFrame implements ActionListener {
         ImageIcon imageIcon = new ImageIcon(getClass().getResource("./images/enigma-icon.png"));
         Image image = imageIcon.getImage();//1
         Image newimage = image.getScaledInstance(120,105, java.awt.Image.SCALE_SMOOTH);//2
-        imageIcon = new ImageIcon(newimage);//3 estas tres líneas sirven para que la imagen se cargue correctamente
+        imageIcon = new ImageIcon(newimage);//3 estas tres l�neas sirven para que la imagen se cargue correctamente
         label1 = new JLabel(imageIcon); //carga la imagen cargada en al varaible imagen en la label1
         label1.setBounds(60,0, 229, 200); //Seleccionar dimensiones y coordenadas en píxeles (derecha, abajo, ancho, alto)
-        add(label1); //todo lo anterior se añade a label1
+        add(label1); //todo lo anterior se a�ade a label1
         
         label2 = new JLabel("MoneySaving");
         label2.setBounds(105,175,300,30);
@@ -160,6 +163,11 @@ public class Login extends JFrame implements ActionListener {
     	PrintWriter pw = new PrintWriter("database.txt");
 		pw.println(pin);
 		pw.close();
+<<<<<<< HEAD
+		String name_variable = JOptionPane.showInputDialog("Introduzca su nombre");
+		usuario.setName(name_variable);
+=======
+>>>>>>> origin/master
     }
     
     @Override
