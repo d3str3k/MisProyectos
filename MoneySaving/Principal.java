@@ -111,7 +111,7 @@ public class Principal extends JFrame implements ActionListener{
     labelBienvenido.setForeground(new Color(255, 255, 255));
     add(labelBienvenido);
 
-    labelTitle = new JLabel("Datos del trabajador para el cálculo de vacaciones");
+    labelTitle = new JLabel("Datos del trabajador para el c�lculo de vacaciones");
     labelTitle.setBounds(45,140,900,25);
     labelTitle.setFont(new Font("Andale Mono", 0, 24));
     labelTitle.setForeground(new Color(255, 255, 255));
@@ -169,11 +169,11 @@ public class Principal extends JFrame implements ActionListener{
     comboDepartamento.setForeground(new java.awt.Color(255, 0, 0));
     add(comboDepartamento);
     comboDepartamento.addItem("");
-    comboDepartamento.addItem("Atención al Cliente");
+    comboDepartamento.addItem("Atenci�n al Cliente");
     comboDepartamento.addItem("Departamento de Logística");
     comboDepartamento.addItem("Departamento de Gerencia");
 
-    labelAntiguedad = new JLabel("Selecciona la Antigüedad:");
+    labelAntiguedad = new JLabel("Selecciona la Antig�edad:");
     labelAntiguedad.setBounds(220,248,180,25);
     labelAntiguedad.setFont(new Font("Andale Mono", 1, 12));
     labelAntiguedad.setForeground(new Color(255, 255, 255));
@@ -186,9 +186,9 @@ public class Principal extends JFrame implements ActionListener{
     comboAntiguedad.setForeground(new java.awt.Color(255, 0, 0));
     add(comboAntiguedad);
     comboAntiguedad.addItem("");
-    comboAntiguedad.addItem("1 año de servicio");
+    comboAntiguedad.addItem("1 a�o de servicio");
     comboAntiguedad.addItem("2 a 6 años de servicio");
-    comboAntiguedad.addItem("7 años o más de servicio");
+    comboAntiguedad.addItem("7 años o m�s de servicio");
 
     labelResultado = new JLabel("Resultado del Cálculo:");
     labelResultado.setBounds(220,307,180,25);
@@ -201,12 +201,12 @@ public class Principal extends JFrame implements ActionListener{
     textarea1.setBackground(new Color(224, 224, 224));
     textarea1.setFont(new Font("Andale Mono", 1, 11));
     textarea1.setForeground(new Color(255, 0, 0));
-    textarea1.setText("\n   Aquí aparece el resultado del cálculo de las vacaciones.");
+    textarea1.setText("\n   Aqu� aparece el resultado del cálculo de las vacaciones.");
     scrollpane1 = new JScrollPane(textarea1);
     scrollpane1.setBounds(220,333,385,90);
     add(scrollpane1); 
 
-    labelfooter = new JLabel("©Enigma | Todos los derechos reservados");
+    labelfooter = new JLabel("�Enigma | Todos los derechos reservados");
     labelfooter.setBounds(135,445,500,30);
     labelfooter.setFont(new java.awt.Font("Andale Mono", 1, 12));
     labelfooter.setForeground(new java.awt.Color(255, 255, 255));
