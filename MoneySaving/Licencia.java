@@ -2,6 +2,8 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 
 public class Licencia extends JFrame implements ActionListener, ChangeListener{
     // Para poder implementar un evento asociado a una JCheckBox hay que implementar la clase ChangeListener, y para los botones ActionListener
@@ -10,7 +12,7 @@ public class Licencia extends JFrame implements ActionListener, ChangeListener{
     private JButton button1, button2;
     private JScrollPane scrollpane1;
     private JTextArea textarea1;
-    String nombre = "";
+    public static String name = Login.name;
 
     public Licencia () {
         setLayout(null);
@@ -18,8 +20,6 @@ public class Licencia extends JFrame implements ActionListener, ChangeListener{
         setTitle("Licencia de uso");
         getContentPane().setBackground(new Color(0,0,0));
         setIconImage(new ImageIcon(getClass().getResource("./images/enigma-icon.png")).getImage());
-        Login ventanaLogin = new Login();
-        nombre = ventanaLogin.usuario.getName();
 
         label1 = new JLabel("TÉRMINOS Y CONDICIONES");
         label1.setBounds(215,5,250,30);
@@ -37,7 +37,7 @@ public class Licencia extends JFrame implements ActionListener, ChangeListener{
         scrollpane1.setBounds(10,40,575,200);
         add(scrollpane1); 
 
-        check1 = new JCheckBox("Yo " + nombre + " Acepto");
+        check1 = new JCheckBox("Yo " + name + " Acepto");
         check1.setBackground(new Color(0,0,0));
         check1.setBounds(10,250,300,30);
         check1.setForeground(new Color(255,255,255));
@@ -84,6 +84,14 @@ public class Licencia extends JFrame implements ActionListener, ChangeListener{
             ventanaPrincipal.setLocationRelativeTo(null);
             this.setVisible(false);
         } else if (action.getSource() == button2) {
+            try (// Elimina los datos
+            PrintWriter pw = new PrintWriter("database.txt")) {
+                pw.write("");
+                pw.close();
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             Login ventanaLogin = new Login();
             ventanaLogin.setBounds(0,0,350,450);
             ventanaLogin.setVisible(true);

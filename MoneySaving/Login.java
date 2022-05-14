@@ -14,7 +14,8 @@ public class Login extends JFrame implements ActionListener {
     private JLabel label1, label2, label3, label4; //Variables
     private JButton boton1; // Botón para ingresar el PIN
     public static String pin = "";
-    public static Usuario usuario = new Usuario("");
+    public static String name = "";
+    public static String [] items1;
     
     public Login () {
         setLayout(null);
@@ -50,7 +51,7 @@ public class Login extends JFrame implements ActionListener {
         label3.setForeground(new Color(255,255,255)); //Seleccionar color texto
         add(label3);
         
-        label4 = new JLabel("�Enigma");
+        label4 = new JLabel("©Enigma");
         label4.setBounds(150,375,300,30);
         label4.setFont(new Font("Andale Mono", 1, 12)); //Seleccionar la fuente, estilo (cursiva,...), tamaño (en píxeles)
         label4.setForeground(new Color(255,255,255)); //Seleccionar color texto
@@ -89,15 +90,18 @@ public class Login extends JFrame implements ActionListener {
     	try (Scanner sc = new Scanner(new File("database.txt"))) {
     		boolean check = sc.hasNext(); // se checkea si el archivo abierto tiene un int
     		if(check) {
-    			valid_pin = sc.next(); // como lo tiene lo carga en pin valido
+    			String aux = sc.next(); // como lo tiene lo carga en pin valido
+                items1 = aux.split("[:]");
+                name = items1[0];
+                valid_pin = items1[1];
     		} else {
     			throw new NotRegisteredException("Usuario no registrado");
     		}
     		
     	} catch (FileNotFoundException exc1) {
     		try {
-    			JOptionPane.showMessageDialog(null, "Registro completado con �xito. Su PIN es: " + pin, "Registro", JOptionPane.INFORMATION_MESSAGE);
 				register(pin, false);
+                JOptionPane.showMessageDialog(null, "Registro completado con éxito. Su PIN es: " + pin, "Registro", JOptionPane.INFORMATION_MESSAGE);
 				valid_pin = pin;
 				registered = true;
 			} catch (FileNotFoundException e1) {
@@ -109,8 +113,8 @@ public class Login extends JFrame implements ActionListener {
 			}
     	} catch (NotRegisteredException exc2) {
     		try {
-    			JOptionPane.showMessageDialog(null,"Registro completado con �xito. Su PIN es: " + pin, "Registro", JOptionPane.INFORMATION_MESSAGE);
 				register(pin, true);
+    			JOptionPane.showMessageDialog(null,"Registro completado con éxito. Su PIN es: " + pin, "Registro", JOptionPane.INFORMATION_MESSAGE);
 				valid_pin = pin;
 				registered = true;
 			} catch (FileNotFoundException e1) {
@@ -156,11 +160,13 @@ public class Login extends JFrame implements ActionListener {
     		File file = new File("./database.txt");
     		file.createNewFile();
     	} 
+        name = JOptionPane.showInputDialog("Introduzca su nombre");
     	PrintWriter pw = new PrintWriter("database.txt");
-		pw.println(pin);
+		pw.print(name);
+        pw.print(":");
+        pw.print(pin);
 		pw.close();
-		String name_variable = JOptionPane.showInputDialog("Introduzca su nombre");
-		usuario.setName(name_variable);
+        
     }
     
     @Override
