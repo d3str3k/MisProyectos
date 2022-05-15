@@ -2,8 +2,10 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Scanner;
 
 public class Licencia extends JFrame implements ActionListener, ChangeListener{
     // Para poder implementar un evento asociado a una JCheckBox hay que implementar la clase ChangeListener, y para los botones ActionListener
@@ -12,9 +14,17 @@ public class Licencia extends JFrame implements ActionListener, ChangeListener{
     private JButton button1, button2;
     private JScrollPane scrollpane1;
     private JTextArea textarea1;
-    public static String name = Login.name;
+    private String[] database = new String[2];
 
     public Licencia () {
+        
+        try (Scanner sc = new Scanner(new File("database.txt"))){
+            String aux = sc.next();
+            database = aux.split("[:]");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Licencia de uso");
@@ -30,14 +40,15 @@ public class Licencia extends JFrame implements ActionListener, ChangeListener{
         textarea1 = new JTextArea();
         textarea1.setEditable(false); // El usuario no podrá modificar el texto que esté dentro de JTextArea
         textarea1.setFont(new Font("Andale Mono", 0, 9));
-        textarea1.setText("\n\n \t\t\t     TÉRMINOS Y CONDICIONES");
+        textarea1.setText("\n\n \t\t     COMO NUEVO USUARIO DEL SISTEMA MONEYSAVING SE COMPROMETE" +
+                          "\n\n \t\t     1) A aprobar el proyecto MoneySaving con una nota mínma de 5.");
         textarea1.setBackground(new Color(0,0,0));
         textarea1.setForeground(new Color(0,255,0));
         scrollpane1 = new JScrollPane(textarea1);
         scrollpane1.setBounds(10,40,575,200);
         add(scrollpane1); 
 
-        check1 = new JCheckBox("Yo " + name + " Acepto");
+        check1 = new JCheckBox("Yo, " + database[0] + " acepto los términos y condiciones del contrato");
         check1.setBackground(new Color(0,0,0));
         check1.setBounds(10,250,300,30);
         check1.setForeground(new Color(255,255,255));

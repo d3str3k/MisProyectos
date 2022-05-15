@@ -2,6 +2,8 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.util.Scanner;
 
 public class Principal extends JFrame implements ActionListener{
 
@@ -9,9 +11,16 @@ public class Principal extends JFrame implements ActionListener{
     private JMenu menuAjustes,menuTriangularAccount,menuAcercaDe;
     private JMenuItem menuitemTerminos, menuitemPreferencias;
     private JLabel labelLogo,labelBienvenido;
-    public static String name = Login.name;
+    private String [] database = new String[2];
 
     public Principal() {
+        try (Scanner sc = new Scanner(new File("database.txt"))){
+            String aux = sc.next();
+            database = aux.split("[:]");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         setLayout(null);
         setTitle("Pantalla principal");
         getContentPane().setBackground(new Color(0,0,0));
@@ -62,7 +71,7 @@ public class Principal extends JFrame implements ActionListener{
         labelLogo.setBounds(5,5,250,100);
         add(labelLogo);
 
-        labelBienvenido = new JLabel("Bienvenido " + name);  
+        labelBienvenido = new JLabel("Bienvenido " + database[0]);  
         labelBienvenido.setBounds(280,30,300,30);
         labelBienvenido.setFont(new Font("Andale Mono", 1, 32));
         labelBienvenido.setForeground(new Color(255, 255, 255));

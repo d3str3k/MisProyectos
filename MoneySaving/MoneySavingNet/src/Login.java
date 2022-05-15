@@ -13,9 +13,7 @@ public class Login extends JFrame implements ActionListener {
     private JTextField textfield1; //JTextField es el campo donde se introducirá el Pin
     private JLabel label1, label2, label3, label4; //Variables
     private JButton boton1; // Botón para ingresar el PIN
-    public static String pin = "";
-    public static String name = "";
-    public static String [] items1;
+    public static String [] database = new String[2];
     
     public Login () {
         setLayout(null);
@@ -34,10 +32,10 @@ public class Login extends JFrame implements ActionListener {
         ImageIcon imageIcon = new ImageIcon(getClass().getResource("./images/enigma-icon.png"));
         Image image = imageIcon.getImage();//1
         Image newimage = image.getScaledInstance(120,105, java.awt.Image.SCALE_SMOOTH);//2
-        imageIcon = new ImageIcon(newimage);//3 estas tres l�neas sirven para que la imagen se cargue correctamente
+        imageIcon = new ImageIcon(newimage);//3 estas tres líneas sirven para que la imagen se cargue correctamente
         label1 = new JLabel(imageIcon); //carga la imagen cargada en al varaible imagen en la label1
         label1.setBounds(60,0, 229, 200); //Seleccionar dimensiones y coordenadas en píxeles (derecha, abajo, ancho, alto)
-        add(label1); //todo lo anterior se a�ade a label1
+        add(label1); //todo lo anterior se añade a label1
         
         label2 = new JLabel("MoneySaving");
         label2.setBounds(105,175,300,30);
@@ -73,7 +71,7 @@ public class Login extends JFrame implements ActionListener {
         add(boton1);
     }
     
-    private void login(String valid_pin, String pin) {
+    private void login(String valid_pin, String pin, String name) {
     	/* Descripción
     	 * El método login va a comprobar 
     	 * 1) si el PIN es vacío, en cuyo caso mostrará un mensaje pop-up de error
@@ -90,53 +88,57 @@ public class Login extends JFrame implements ActionListener {
     	try (Scanner sc = new Scanner(new File("database.txt"))) {
     		boolean check = sc.hasNext(); // se checkea si el archivo abierto tiene un int
     		if(check) {
-    			String aux = sc.next(); // como lo tiene lo carga en pin valido
-                items1 = aux.split("[:]");
-                name = items1[0];
-                valid_pin = items1[1];
+                String aux = sc.next(); // como lo tiene lo carga en pin valido
+                database = aux.split("[:]");
+                name = database[0];
+                valid_pin = database[1];
     		} else {
     			throw new NotRegisteredException("Usuario no registrado");
     		}
     		
     	} catch (FileNotFoundException exc1) {
     		try {
-				register(pin, false);
-                JOptionPane.showMessageDialog(null, "Registro completado con éxito. Su PIN es: " + pin, "Registro", JOptionPane.INFORMATION_MESSAGE);
-				valid_pin = pin;
-				registered = true;
-			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+                        register(name, pin, false);
+                        JOptionPane.showMessageDialog(null, "Registro completado con éxito. Su PIN es: " + pin, "Registro", JOptionPane.INFORMATION_MESSAGE);
+                        valid_pin = pin;
+                        registered = true;
+                        database[0] = name;
+                        database[1] = valid_pin;
+                } catch (FileNotFoundException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                } catch (IOException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                }
     	} catch (NotRegisteredException exc2) {
     		try {
-				register(pin, true);
-    			JOptionPane.showMessageDialog(null,"Registro completado con éxito. Su PIN es: " + pin, "Registro", JOptionPane.INFORMATION_MESSAGE);
-				valid_pin = pin;
-				registered = true;
-			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+                        register(name, pin, true);
+                        JOptionPane.showMessageDialog(null,"Registro completado con éxito. Su PIN es: " + pin, "Registro", JOptionPane.INFORMATION_MESSAGE);
+                        valid_pin = pin;
+                        registered = true;
+                        database[0] = name;
+                        database[1] = valid_pin;
+                } catch (FileNotFoundException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                } catch (IOException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                }
     	}
     	
         if(pin.equals("")) {
             JOptionPane.showMessageDialog(null, "Debes de ingresar tu PIN", "Error Login", JOptionPane.ERROR_MESSAGE);
         } else if (pin.equals(valid_pin) && registered == false){
-        	 Principal ventanaPrincipal = new Principal();
-             ventanaPrincipal.setBounds(0,0,640,535);
-             ventanaPrincipal.setVisible(true);
-             ventanaPrincipal.setResizable(false);
-             ventanaPrincipal.setLocationRelativeTo(null);
+            Principal ventanaPrincipal = new Principal();
+            ventanaPrincipal.setBounds(0,0,640,535);
+            ventanaPrincipal.setVisible(true);
+            ventanaPrincipal.setResizable(false);
+            ventanaPrincipal.setLocationRelativeTo(null);
             this.dispose();
         } else if (pin.equals(valid_pin) && registered == true) {
-        	Licencia ventanaLicencia = new Licencia();
+            Licencia ventanaLicencia = new Licencia();
             ventanaLicencia.setBounds(0,0,600,360);
             ventanaLicencia.setVisible(true);
             ventanaLicencia.setResizable(false);
@@ -149,7 +151,7 @@ public class Login extends JFrame implements ActionListener {
     	
     }
     
-    private void register(String pin, boolean exists) throws IOException 
+    private void register(String name, String pin, boolean exists) throws IOException 
     {
     	/*
     	 * El método register:
@@ -161,20 +163,20 @@ public class Login extends JFrame implements ActionListener {
     		file.createNewFile();
     	} 
         name = JOptionPane.showInputDialog("Introduzca su nombre");
-    	PrintWriter pw = new PrintWriter("database.txt");
-		pw.print(name);
-        pw.print(":");
-        pw.print(pin);
-		pw.close();
-        
-    }
+        try (PrintWriter pw = new PrintWriter("database.txt")) {
+            pw.print(name);
+            pw.print(":");
+            pw.print(pin);
+        }
+   }
     
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == boton1) {
-        	String valid_pin = null;
-            pin = textfield1.getText().trim(); //trim hace que elimina los espacios anteriores al texto
-            login(valid_pin, pin); //Ejecuta el método login
+            String valid_pin = null;
+            String pin = textfield1.getText().trim(); //trim hace que elimina los espacios anteriores al texto
+            String name = "";
+            login(valid_pin, pin, name); //Ejecuta el método login
         }
     }
     
