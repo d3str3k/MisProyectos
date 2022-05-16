@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Principal extends JFrame implements ActionListener{
@@ -147,10 +148,12 @@ public class Principal extends JFrame implements ActionListener{
         botonTriangularAccount.addActionListener(this); 
         mb.add(botonTriangularAccount);
 
+        MoneySavingTips monkey = new MoneySavingTips();
+        int rnd = (int) (Math.random() * (monkey.numPhrases - 0)) + 0;
         textarea1 = new JTextArea();
         textarea1.setEditable(false); // El usuario no podrÃƒÂ¡ modificar el texto que estÃƒÂ© dentro de JTextArea
         textarea1.setFont(new Font("Andale Mono", 0, 9));
-        textarea1.setText("\n\n \t\t\t     ");
+        textarea1.setText("\n\n " + monkey.getTips(rnd));
         textarea1.setBackground(new Color(0,0,0));
         textarea1.setForeground(new Color(0,255,0));
         scrollpane1 = new JScrollPane(textarea1);
