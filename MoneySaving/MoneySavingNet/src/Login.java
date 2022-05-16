@@ -127,7 +127,7 @@ public class Login extends JFrame implements ActionListener {
                         e1.printStackTrace();
                 }
     	}
-    	
+            	
         if(pin.equals("")) {
             JOptionPane.showMessageDialog(null, "Debes de ingresar tu PIN", "Error Login", JOptionPane.ERROR_MESSAGE);
         } else if (pin.equals(valid_pin) && registered == false){
