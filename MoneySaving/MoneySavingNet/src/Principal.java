@@ -181,6 +181,21 @@ public class Principal extends JFrame implements ActionListener{
 
         }
         if(e.getSource() == botonHucha){
+            // Condicional por si hay hucha o no para acceder a registroHucha o  a hucha
+    		File huchaExiste = new File("./databaseHucha.txt");
+            if (huchaExiste.exists()) {
+                // Hucha ventanaH = new Hucha();
+                // ventanaH.setBounds(0,0,350,450);
+                // ventanaH.setVisible(true);
+                // ventanaH.setResizable(false);  
+                // ventanaH.setLocationRelativeTo(null); // cuando se inicie la interfaz aparecerá en el centro de la pantalla
+            } else {
+                RegistroHucha ventanaRH = new RegistroHucha();
+                ventanaRH.setBounds(0,0,350,450);
+                ventanaRH.setVisible(true);
+                ventanaRH.setResizable(false);  
+                ventanaRH.setLocationRelativeTo(null);
+            }
 
         }
         if(e.getSource() == menuOscuro){
@@ -215,4 +230,5 @@ public class Principal extends JFrame implements ActionListener{
         ventanaPrincipal.setResizable(false);
         ventanaPrincipal.setLocationRelativeTo(null);
     } 
+    
 }
