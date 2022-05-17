@@ -178,7 +178,12 @@ public class Principal extends JFrame implements ActionListener{
             
         }
         if(e.getSource() == botonCuenta){
-
+            Cuenta cuenta = new Cuenta();
+            cuenta.setBounds(0,0,640,535);
+            cuenta.setVisible(true);
+            cuenta.setResizable(false);
+            cuenta.setLocationRelativeTo(null);
+            this.dispose();
         }
         if(e.getSource() == botonHucha){
             // Condicional por si hay hucha o no para acceder a registroHucha o  a hucha
