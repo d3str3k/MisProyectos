@@ -20,6 +20,11 @@ public class Principal extends JFrame implements ActionListener{
     private String [] database = new String[2];
     public static boolean modoOscuro = false; 
 
+    private Color layoutColor =new Color(232,248, 245);
+    private Color ButtonColor =new Color(23, 165, 137);
+    private Color wordBlack =new Color(0, 0, 0);            //Para letras sobre el fondo
+    private Color wordWhite =new Color(255,255,255);        //Para letras sobre botones
+
 
     public Principal() {
         try (Scanner sc = new Scanner(new File("database.txt"))){
@@ -31,35 +36,35 @@ public class Principal extends JFrame implements ActionListener{
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE); //El programa no quedarÃ¡ en segundo plano (muere) cuando se cierra la interfaz
         setTitle("Pantalla principal");
-        getContentPane().setBackground(new Color(0,0,0));
+        getContentPane().setBackground(layoutColor);
         setIconImage(new ImageIcon(getClass().getResource("./images/enigma-icon.png")).getImage());
 
         mb = new JMenuBar();
-        mb.setBackground(new Color(225,0,0));
+        mb.setBackground(ButtonColor);
         setJMenuBar(mb);
 
         menuAjustes = new JMenu("Ajustes");
-        menuAjustes.setBackground(new Color(0, 0, 0));
+        menuAjustes.setBackground(ButtonColor);
         menuAjustes.setFont(new Font("Andale Mono", 1, 14));
-        menuAjustes.setForeground(new Color(255, 255, 255));
+        menuAjustes.setForeground(wordWhite);
         mb.add(menuAjustes);
 
         menuColor = new JMenu("Cambiar Tema");
         menuColor.setFont(new Font("Andale Mono", 1, 14));
-        menuColor.setForeground(new Color(0, 0, 0));
+        menuColor.setForeground(wordBlack);
         menuAjustes.add(menuColor);
 
         menuOscuro = new JMenuItem("Modo Oscuro");
-        menuOscuro.setBackground(new Color(0,0,0));
+        menuOscuro.setBackground(wordBlack);
         menuOscuro.setFont(new Font("Andale Mono", 1, 14));
-        menuOscuro.setForeground(new Color(255, 255, 255));
+        menuOscuro.setForeground(wordWhite);
         menuOscuro.addActionListener(this); 
         menuColor.add(menuOscuro);
 
         menuItemClaro = new JMenuItem("Modo Claro");
-        menuItemClaro.setBackground(new Color(0,0,0));
+        menuItemClaro.setBackground(wordBlack);
         menuItemClaro.setFont(new Font("Andale Mono", 1, 14));
-        menuItemClaro.setForeground(new Color(255, 255, 255));
+        menuItemClaro.setForeground(wordWhite);
         menuItemClaro.addActionListener(this); 
         menuColor.add(menuItemClaro);
 
@@ -91,22 +96,22 @@ public class Principal extends JFrame implements ActionListener{
         menuColor.add(menuOscuro);
 
         menuitemPreferencias = new JMenuItem("Preferencias");
-        menuitemPreferencias.setBackground(new Color(0,0,0));
+        menuitemPreferencias.setBackground(wordWhite);
         menuitemPreferencias.setFont(new Font("Andale Mono", 1, 14));
-        menuitemPreferencias.setForeground(new Color(255,255,255));
+        menuitemPreferencias.setForeground(wordBlack);
         menuitemPreferencias.addActionListener(this);
         menuAjustes.add(menuitemPreferencias);
 
         menuAcercaDe = new JMenu("Acerca de");
-        menuAcercaDe.setBackground(new Color(0, 0, 0));
+        menuAcercaDe.setBackground(wordBlack);
         menuAcercaDe.setFont(new Font("Andale Mono", 1, 14));
-        menuAcercaDe.setForeground(new Color(255, 255, 255));
+        menuAcercaDe.setForeground(wordWhite);
         mb.add(menuAcercaDe);
 
         menuitemTerminos = new JMenuItem("TÃ©rminos y Condiciones");
-        menuitemTerminos.setBackground(new Color(0,0,0));
+        menuitemTerminos.setBackground(wordWhite);
         menuitemTerminos.setFont(new Font("Andale Mono", 1, 14));
-        menuitemTerminos.setForeground(new Color(255,255,255));
+        menuitemTerminos.setForeground(wordBlack);
         menuitemTerminos.addActionListener(this);
         menuAcercaDe.add(menuitemTerminos);
 
@@ -121,30 +126,30 @@ public class Principal extends JFrame implements ActionListener{
         labelBienvenido = new JLabel("Bienvenido " + database[0]);  
         labelBienvenido.setBounds(235,30,300,50);
         labelBienvenido.setFont(new Font("Andale Mono", 1, 26));
-        labelBienvenido.setForeground(new Color(255, 255, 255));
+        labelBienvenido.setForeground(wordBlack);
         add(labelBienvenido);
 
         botonCuenta =  new JButton("CUENTA");
         botonCuenta.setBounds(30,100,250,150);
-        botonCuenta.setBackground(new Color(255,255,255));
-        botonCuenta.setFont(new Font("Andale Mono", 1, 14));
-        botonCuenta.setForeground(new Color(0,0,0));
+        botonCuenta.setBackground(ButtonColor);
+        botonCuenta.setFont(new Font("Andale Mono", 1, 26));
+        botonCuenta.setForeground(wordWhite);
         botonCuenta.addActionListener(this); 
         add(botonCuenta);
 
         botonHucha =  new JButton("HUCHA");
         botonHucha.setBounds(30,260,250,150);
-        botonHucha.setBackground(new Color(255,255,255));
-        botonHucha.setFont(new Font("Andale Mono", 1, 14));
-        botonHucha.setForeground(new Color(0,0,0));
+        botonHucha.setBackground(ButtonColor);
+        botonHucha.setFont(new Font("Andale Mono", 1, 26));
+        botonHucha.setForeground(wordWhite);
         botonHucha.addActionListener(this); 
         add(botonHucha);
 
         botonTriangularAccount = new JButton("TriangularAccount");
         botonTriangularAccount.setBounds(330,100,250,150);
-        botonTriangularAccount.setBackground(new Color(243, 36, 36));
+        botonTriangularAccount.setBackground(ButtonColor);
         botonTriangularAccount.setFont(new Font("Andale Mono", 1, 14));
-        botonTriangularAccount.setForeground(new Color(255, 255, 255));
+        botonTriangularAccount.setForeground(wordWhite);
         botonTriangularAccount.addActionListener(this); 
         mb.add(botonTriangularAccount);
 
@@ -189,11 +194,25 @@ public class Principal extends JFrame implements ActionListener{
             // Condicional por si hay hucha o no para acceder a registroHucha o  a hucha
     		File huchaExiste = new File("./databaseHucha.txt");
             if (huchaExiste.exists()) {
-                // Hucha ventanaH = new Hucha();
-                // ventanaH.setBounds(0,0,350,450);
-                // ventanaH.setVisible(true);
-                // ventanaH.setResizable(false);  
-                // ventanaH.setLocationRelativeTo(null); // cuando se inicie la interfaz aparecerá en el centro de la pantalla
+                boolean exitsHucha = false;
+                try (Scanner sc = new Scanner(new File("databaseHucha.txt"))) {
+                    if (sc.hasNext())   exitsHucha = true;
+                } catch (FileNotFoundException excH) {
+                    excH.printStackTrace();
+                }
+                if (exitsHucha == true) {
+                    Hucha ventanaH = new Hucha();
+                    ventanaH.setBounds(0,0,350,450);
+                    ventanaH.setVisible(true);
+                    ventanaH.setResizable(false);  
+                    ventanaH.setLocationRelativeTo(null); // cuando se inicie la interfaz aparecerá en el centro de la pantalla
+                } else {
+                    RegistroHucha ventanaRH = new RegistroHucha();
+                    ventanaRH.setBounds(0,0,350,450);
+                    ventanaRH.setVisible(true);
+                    ventanaRH.setResizable(false);  
+                    ventanaRH.setLocationRelativeTo(null);                    
+                }
             } else {
                 RegistroHucha ventanaRH = new RegistroHucha();
                 ventanaRH.setBounds(0,0,350,450);
@@ -205,14 +224,25 @@ public class Principal extends JFrame implements ActionListener{
         }
         if(e.getSource() == menuOscuro){
             modoOscuro = true;
-            getContentPane().setBackground(new Color(3,5,30)); 
-            botonCuenta.setBackground(new Color(11,82,105));
+            modoOscuro = true;
+            layoutColor =new Color(23, 165, 137);
+            ButtonColor =new Color(11, 83, 69 );
+            wordBlack =new Color(255,255,255);            //Para letras sobre el fondo
+            wordWhite =new Color(0,0,0);        //Para letras sobre botones       
+            getContentPane().setBackground(layoutColor); 
+            botonCuenta.setBackground(ButtonColor);
+            botonHucha.setBackground(ButtonColor);
             // menu = new Color(151, 141, 88);
             // menuitems = new Color(11,82,105);
             // text = new Color(234, 225, 225);           
         }if(e.getSource() == menuItemClaro){
-            background = new Color(0,255,0);
-            getContentPane().setBackground(background);
+            layoutColor =new Color(232,248, 245);
+            ButtonColor =new Color(23, 165, 137);
+            wordBlack =new Color(0, 0, 0);            //Para letras sobre el fondo
+            wordWhite =new Color(255,255,255);        //Para letras sobre botones
+            getContentPane().setBackground(layoutColor); 
+            botonCuenta.setBackground(ButtonColor);
+            botonHucha.setBackground(ButtonColor);
         } 
     }
 

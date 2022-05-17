@@ -1,37 +1,37 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// /*
+//  * To change this license header, choose License Headers in Project Properties.
+//  * To change this template file, choose Tools | Templates
+//  * and open the template in the editor.
+//  */
 
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+// import java.awt.event.ActionEvent;
+// import java.awt.event.ActionListener;
 
-import javax.swing.JOptionPane;
+// import javax.swing.JOptionPane;
 
-import ds.desktop.notify.DesktopNotify;
-import ds.desktop.notify.NotifyTheme;
-/**
- *
- * @author David
- */
-public class Notificaciones {
+// import ds.desktop.notify.DesktopNotify;
+// import ds.desktop.notify.NotifyTheme;
+// /**
+//  *
+//  * @author David
+//  */
+// public class Notificaciones {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
+//     /**
+//      * @param args the command line arguments
+//      */
+//     public static void main(String[] args) {
        
         
-        DesktopNotify.showDesktopMessage(
-        "Se trata de una notificación,",
-        "con DS Desktop Notify, la visualización de notificaciones en la pantalla es rápida y sencilla",
-        DesktopNotify.SUCCESS);  
+//         DesktopNotify.showDesktopMessage(
+//         "Se trata de una notificación,",
+//         "con DS Desktop Notify, la visualización de notificaciones en la pantalla es rápida y sencilla",
+//         DesktopNotify.SUCCESS);  
         
         
         
-        DesktopNotify.showDesktopMessage("¿No pasa nada con los clics?", "Nótese que esta notificación no se puede cerrar con el ratón, esto se debe a que no todas las notificaciones se cierran con un clic. Se puede optar por darles un tiempo de expiración en milisegundos, de modo que las notificaciones permanezcan un tiempo determinado en la pantalla.", DesktopNotify.TIP, 14000L);
+//         DesktopNotify.showDesktopMessage("¿No pasa nada con los clics?", "Nótese que esta notificación no se puede cerrar con el ratón, esto se debe a que no todas las notificaciones se cierran con un clic. Se puede optar por darles un tiempo de expiración en milisegundos, de modo que las notificaciones permanezcan un tiempo determinado en la pantalla.", DesktopNotify.TIP, 14000L);
         
         
         
@@ -116,6 +116,6 @@ public class Notificaciones {
 //        }
 //        );
         
-    }
+//     }
     
-}
+// }
