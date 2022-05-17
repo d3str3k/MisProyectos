@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 import java.awt.*;
 
@@ -25,33 +27,123 @@ public class Hucha extends JFrame implements ActionListener {
 
     private JTextField insertName, insertCount;
     private JTextField insertYear, insertMonth, insertDay;
-    private JLabel label1;
-    private JButton buttonNext;
+    private JLabel label1, labelLogo;
+    private JButton buttonRitmoAhorro, buttonAhorroMas, buttonAceptarConfirmacion, buttonRechazarConfirmacion;
     private Choice choice;
 
     public Hucha() {
         llenarVariables();
+        recordatorio();
+        //////////////////////////////////////////////// INTERFAZ ///////////////////////////////////////////////////
+
         setLayout(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Se cerrará solo esta ventana
         // La interfaz gr�fica tiene 3 caracter�sticas fuera de los componentes: el título, un icono y el background. Estos componentes se indican en el constructor
         setTitle("Hucha"); //Inserta el t�tulo
         getContentPane().setBackground(layoutColor); //Selecciona el color del background con un RGB
         setIconImage(new ImageIcon(getClass().getResource("./images/enigma-icon.png")).getImage()); //Coloca icono
+
+
+        // Label: Nombre hucha
+        label1 = new JLabel(nombreHucha);
+        label1.setBounds(160,50,300,30);
+        label1.setFont(new Font("Andale Mono", 3, 30)); //Seleccionar la fuente, estilo (cursiva,...), tamaño (en píxeles)
+        label1.setForeground(wordBlack); //Seleccionar color texto
+        add(label1);
+
+        // Image: hucha cerdo
+        ImageIcon imageIcon = new ImageIcon(getClass().getResource("./images/enigma-hucha.png"));
+        Image image = imageIcon.getImage();//1
+        Image newimage = image.getScaledInstance(120,90, java.awt.Image.SCALE_SMOOTH);//2
+        imageIcon = new ImageIcon(newimage);//3 estas tres lÃ­neas sirven para que la imagen se cargue correctamente
+        labelLogo = new JLabel(imageIcon);  
+        labelLogo.setBounds(20,10,115,115);
+        add(labelLogo);
+
+        // Label: Cantidad Objetivo
+        label1 = new JLabel("Cantidad Objetivo: ");
+        label1.setBounds(20,125,300,30);
+        label1.setFont(new Font("Andale Mono", 3, 14)); //Seleccionar la fuente, estilo (cursiva,...), tamaño (en píxeles)
+        label1.setForeground(wordBlack); //Seleccionar color texto
+        add(label1);
+        // Label: Valor Cantidad objetivo
+        label1 = new JLabel(String.valueOf(cantidadObjetivo));
+        label1.setBounds(170,125,300,30);
+        label1.setFont(new Font("Andale Mono", 3, 14)); //Seleccionar la fuente, estilo (cursiva,...), tamaño (en píxeles)
+        label1.setForeground(wordBlack); //Seleccionar color texto
+        add(label1);
+
+
+        // Label: Fecha Límite
+        label1 = new JLabel("Fecha Límite: ");
+        label1.setBounds(20,145,300,30);
+        label1.setFont(new Font("Andale Mono", 3, 14)); //Seleccionar la fuente, estilo (cursiva,...), tamaño (en píxeles)
+        label1.setForeground(wordBlack); //Seleccionar color texto
+        add(label1);
+        // Label: Valor fecha limite
+        String fecha = date[0] + "/" + date[1] + "/" + date[2] ;
+        label1 = new JLabel(fecha);
+        label1.setBounds(170,145,300,30);
+        label1.setFont(new Font("Andale Mono", 3, 14)); //Seleccionar la fuente, estilo (cursiva,...), tamaño (en píxeles)
+        label1.setForeground(wordBlack); //Seleccionar color texto
+        add(label1);
+
+
+        // Label: Ritmo ahorro
+        label1 = new JLabel("Ritmo de ahorro: ");
+        label1.setBounds(20,165,300,30);
+        label1.setFont(new Font("Andale Mono", 3, 14)); //Seleccionar la fuente, estilo (cursiva,...), tamaño (en píxeles)
+        label1.setForeground(wordBlack); //Seleccionar color texto
+        add(label1);
+        // Label: Valor Cantidad objetivo
+        label1 = new JLabel(String.valueOf(ritmoAhorro) + " €");
+        label1.setBounds(170,165,300,30);
+        label1.setFont(new Font("Andale Mono", 3, 14)); //Seleccionar la fuente, estilo (cursiva,...), tamaño (en píxeles)
+        label1.setForeground(wordBlack); //Seleccionar color texto
+        add(label1);
+
+
+       
         
+        //////////////////////////////////////////// NOTIFICAICON ///////////////////////////////////////////////////////
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
-        
+    }
+  // NOTIFICACIÓN
+    public void recordatorio() {
+        Timer timer = new Timer (ritmoAhorro*60*1000, new ActionListener ()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                JOptionPane.showConfirmDialog(null, "Desea ahorrar " + porTiempo(ritmoAhorro),
+                "Confirmación de ahorro", JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        timer.start();
     }
 
-    // NOTIFICACIÓN
-    private void recordatorio() {
+    private String porTiempo(int ritmoAhorro) {
+        LocalDateTime dateTime = LocalDateTime.now();
+        int yearRes = date[2] - dateTime.getYear();
+        int monthRes = date[1] - dateTime.getMonthValue();
+        int dayRes = date[0] - dateTime.getDayOfMonth();
+        int hourRes = 24 - dateTime.getHour();
+        int minRes = 60 - dateTime.getMinute();
 
+        int minTotales =    yearRes*525600 + 
+                            monthRes*43800 +
+                            dayRes*1440 +
+                            hourRes*60 +
+                            minRes;
+        DecimalFormat decimalFormat = new DecimalFormat("#.########");
+        return decimalFormat.format((cantidadObjetivo - ahorroAcumulado) / minTotales);
     }
 
-    private void confirmación() {
+    private void confirmacion() {
 
     }
 

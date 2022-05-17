@@ -232,6 +232,7 @@ public class Principal extends JFrame implements ActionListener{
             getContentPane().setBackground(layoutColor); 
             botonCuenta.setBackground(ButtonColor);
             botonHucha.setBackground(ButtonColor);
+            mb.setBackground(ButtonColor);
             // menu = new Color(151, 141, 88);
             // menuitems = new Color(11,82,105);
             // text = new Color(234, 225, 225);           
@@ -243,6 +244,7 @@ public class Principal extends JFrame implements ActionListener{
             getContentPane().setBackground(layoutColor); 
             botonCuenta.setBackground(ButtonColor);
             botonHucha.setBackground(ButtonColor);
+            mb.setBackground(ButtonColor);
         } 
     }
 
