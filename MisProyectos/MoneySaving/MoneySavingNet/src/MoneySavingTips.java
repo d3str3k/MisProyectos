@@ -1,4 +1,10 @@
+import javax.swing.*;
+import javax.swing.event.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 /**
@@ -10,16 +16,15 @@ public class MoneySavingTips {
     public static final int numPhrases = 5;
     
     public MoneySavingTips () {
-//        numPhrases = 0;
-//        try (Scanner nometoquesloshuevos = new Scanner(new File("savingtips.txt"))) {
-//            nometoquesloshuevos.useDelimiter("[\n]");
-//            for(int i = 0; nometoquesloshuevos.hasNext(); i++) {
-//                numPhrases++;
-//            }
-//            
-//        } catch(Exception e) {
-//            e.printStackTrace();
-//        }
+        // try (Scanner nometoquesloshuevosporfavor = new Scanner(new File("savingtips.txt"))) {
+        //     nometoquesloshuevosporfavor.useDelimiter("[\n]");
+        //     for(int i = 0; nometoquesloshuevosporfavor.hasNext(); i++) {
+        //         numPhrases++;
+        //     }
+        //     nometoquesloshuevosporfavor.split();
+        // } catch(Exception e) {
+        //     e.printStackTrace();
+        // }
         tip = "";
     }
     

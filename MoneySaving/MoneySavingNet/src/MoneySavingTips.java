@@ -7,19 +7,19 @@ import java.util.Scanner;
  */
 public class MoneySavingTips {  
     private String tip;
-    public static final int numPhrases = 5;
+    public int numPhrases = 5;
     
     public MoneySavingTips () {
-//        numPhrases = 0;
-//        try (Scanner nometoquesloshuevos = new Scanner(new File("savingtips.txt"))) {
-//            nometoquesloshuevos.useDelimiter("[\n]");
-//            for(int i = 0; nometoquesloshuevos.hasNext(); i++) {
-//                numPhrases++;
-//            }
-//            
-//        } catch(Exception e) {
-//            e.printStackTrace();
-//        }
+        numPhrases = 0;
+        try (Scanner nometoquesloshuevos = new Scanner(new File("savingtips.txt"))) {
+            
+            for(int i = 0; nometoquesloshuevos.hasNext(); i++) {
+                numPhrases++;
+            }
+            
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
         tip = "";
     }
     
