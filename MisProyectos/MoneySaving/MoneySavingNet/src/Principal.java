@@ -221,7 +221,8 @@ public class Principal extends JFrame implements ActionListener{
         }
         //BOTÓN MENÚ TÉRMINOS Y CONDICIONES DE SERVICIO
         if(e.getSource() == menuitemTerminos) {
-            JOptionPane.showMessageDialog(null, "", "Términos y Condiciones de Servicio", JOptionPane.DEFAULT_OPTION);        
+            JOptionPane.showMessageDialog(null, "\n\n \t\t     COMO NUEVO USUARIO DEL SISTEMA MONEYSAVING SE COMPROMETE" +
+            "\n\n \t\t     1) A aprobar el proyecto MoneySaving con una nota mínma de 5.", "Términos y Condiciones de Servicio", JOptionPane.DEFAULT_OPTION);        
         }
         //BOTÓN TRIANGULAR ACCOUNT
         if(e.getSource() == botonTriangularAccount){
