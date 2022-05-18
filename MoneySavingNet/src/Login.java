@@ -155,15 +155,23 @@ public class Login extends JFrame implements ActionListener {
     	if(!exists) { 
     		File file = new File("./database.txt");
     		file.createNewFile();
+                File file1 = new File("./recuperacion.txt");
+                file1.createNewFile();
     	} 
         name = JOptionPane.showInputDialog("Introduzca su nombre");
         if(name == null || name.isEmpty()) {
             return false;
         } else {
+            String respuesta = JOptionPane.showInputDialog("¿Cuál es su profesión ideal?");
             try (PrintWriter pw = new PrintWriter("database.txt")) {
                 pw.print(name);
                 pw.print(":");
                 pw.print(pin);
+                pw.close();
+            }
+            try (PrintWriter pw = new PrintWriter("recuperacion.txt")) {
+                pw.print(respuesta);
+                pw.close();
             }
             return true;
         }
@@ -178,12 +186,12 @@ public class Login extends JFrame implements ActionListener {
             login(valid_pin, pin, name); //Ejecuta el método login
         }
         if(e.getSource() == boton2){
-            // Recuperacion ventanaRecuperacion = new Recuperacion();
-        	// ventanaRecuperacion.setBounds(0,0,350,450);
-        	// ventanaRecuperacion.setVisible(true);
-        	// ventanaRecuperacion.setResizable(false);
-        	// ventanaRecuperacion.setLocationRelativeTo(null);
-            // this.dispose();
+            Recuperacion ventanaRecuperacion = new Recuperacion();
+            ventanaRecuperacion.setBounds(0,0,350,450);
+            ventanaRecuperacion.setVisible(true);
+            ventanaRecuperacion.setResizable(false);
+            ventanaRecuperacion.setLocationRelativeTo(null);
+            this.dispose();
         }
     }
     

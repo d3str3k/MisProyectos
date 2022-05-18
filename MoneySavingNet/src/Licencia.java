@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Scanner;
+import ds.desktop.notify.DesktopNotify;
 
 public class Licencia extends JFrame implements ActionListener, ChangeListener{
     // Para poder implementar un evento asociado a una JCheckBox hay que implementar la clase ChangeListener, y para los botones ActionListener
@@ -93,7 +94,8 @@ public class Licencia extends JFrame implements ActionListener, ChangeListener{
             ventanaPrincipal.setVisible(true);
             ventanaPrincipal.setResizable(false);
             ventanaPrincipal.setLocationRelativeTo(null);
-            this.setVisible(false);
+            DesktopNotify.showDesktopMessage("Bienvenido a MoneySaving", "Te damos la bienvenida a la mejor aplicación de gestoría de ahorros. Disfruta de nuestro servicio :)", DesktopNotify.SUCCESS);
+            this.dispose();
         } else if (action.getSource() == button2) {
             try (// Elimina los datos
             PrintWriter pw = new PrintWriter("database.txt")) {
