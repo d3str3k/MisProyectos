@@ -6,6 +6,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Scanner;
+import ds.desktop.notify.DesktopNotify;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 public class Licencia extends JFrame implements ActionListener, ChangeListener{
     // Para poder implementar un evento asociado a una JCheckBox hay que implementar la clase ChangeListener, y para los botones ActionListener
@@ -93,6 +97,7 @@ public class Licencia extends JFrame implements ActionListener, ChangeListener{
             ventanaPrincipal.setVisible(true);
             ventanaPrincipal.setResizable(false);
             ventanaPrincipal.setLocationRelativeTo(null);
+            
             this.setVisible(false);
         } else if (action.getSource() == button2) {
             try (// Elimina los datos
@@ -102,6 +107,13 @@ public class Licencia extends JFrame implements ActionListener, ChangeListener{
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+            }
+            try (// Elimina el trabajo ideal 
+            PrintWriter pw1 = new PrintWriter("recuperacion.txt")) {
+                pw1.write("");
+                pw1.close();
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
             }
             Login ventanaLogin = new Login();
             ventanaLogin.setBounds(0,0,350,450);
