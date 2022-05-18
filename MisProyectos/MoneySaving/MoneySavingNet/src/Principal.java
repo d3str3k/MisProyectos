@@ -31,6 +31,8 @@ public class Principal extends JFrame implements ActionListener{
     public static Color wordBlack =new Color(0, 0, 0);            //Para letras sobre el fondo
     public static Color wordWhite =new Color(255,255,255);        //Para letras sobre botones
 
+    Cuenta cuenta = new Cuenta();
+    Hucha hucha = new Hucha();
 
     public Principal() {
         try (Scanner sc = new Scanner(new File("database.txt"))){
@@ -201,6 +203,38 @@ public class Principal extends JFrame implements ActionListener{
         scrollpane1.setBounds(330,300,250,100);
         add(scrollpane1); 
 
+
+//-----------------------------------------------------------------------------------------------------------------------------------------
+//              NOTIFICACIONES
+
+
+    File huchaExiste = new File("./databaseHucha.txt");
+    if (huchaExiste.exists()) {
+        boolean exitsHucha = false;
+        try (Scanner sc = new Scanner(new File("databaseHucha.txt"))) {
+            if (sc.hasNext())   exitsHucha = true;
+        } catch (FileNotFoundException excH) {
+            excH.printStackTrace();
+        }
+        if (exitsHucha == true) {
+            hucha.recordatorio();
+        } 
+    }
+
+    // File cuentaExiste = new File("./databaseIngresoFijo.txt");
+    // if (huchaExiste.exists()) {
+    //     boolean exitsHucha = false;
+    //     try (Scanner sc = new Scanner(new File("databaseIngresoFijo.txt"))) {
+    //         if (sc.hasNext())   exitsHucha = true;
+    //     } catch (FileNotFoundException excH) {
+    //         excH.printStackTrace();
+    //     }
+    //     if (exitsHucha == true) {
+    //         cuenta.recordatorio();
+    //     } 
+    // }
+
+
     }
 //-----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -221,8 +255,7 @@ public class Principal extends JFrame implements ActionListener{
         }
         //BOTÓN MENÚ TÉRMINOS Y CONDICIONES DE SERVICIO
         if(e.getSource() == menuitemTerminos) {
-            JOptionPane.showMessageDialog(null, "\n\n \t\t     COMO NUEVO USUARIO DEL SISTEMA MONEYSAVING SE COMPROMETE" +
-            "\n\n \t\t     1) A aprobar el proyecto MoneySaving con una nota mínma de 5.", "Términos y Condiciones de Servicio", JOptionPane.DEFAULT_OPTION);        
+            JOptionPane.showMessageDialog(null, "", "Términos y Condiciones de Servicio", JOptionPane.DEFAULT_OPTION);        
         }
         //BOTÓN TRIANGULAR ACCOUNT
         if(e.getSource() == botonTriangularAccount){
@@ -230,13 +263,13 @@ public class Principal extends JFrame implements ActionListener{
         }
         //BOTÓN CUENTA
         if(e.getSource() == botonCuenta){
-            Cuenta cuenta = new Cuenta();
-            cuenta.setBounds(0,0,640,535);
+            cuenta.setBounds(0,0,350,450);
             cuenta.setVisible(true);
             cuenta.setResizable(false);
             cuenta.setLocationRelativeTo(null);
             this.dispose();
         }
+        
         //BOTÓN HUCHA
         if(e.getSource() == botonHucha){
             // Condicional por si hay hucha o no para acceder a registroHucha o  a hucha
@@ -249,11 +282,10 @@ public class Principal extends JFrame implements ActionListener{
                     excH.printStackTrace();
                 }
                 if (exitsHucha == true) {
-                    Hucha ventanaH = new Hucha();
-                    ventanaH.setBounds(0,0,350,450);
-                    ventanaH.setVisible(true);
-                    ventanaH.setResizable(false);  
-                    ventanaH.setLocationRelativeTo(null); // cuando se inicie la interfaz aparecerá en el centro de la pantalla
+                    hucha.setBounds(0,0,350,450);
+                    hucha.setVisible(true);
+                    hucha.setResizable(false);  
+                    hucha.setLocationRelativeTo(null); // cuando se inicie la interfaz aparecerá en el centro de la pantalla
                     this.dispose();
                 } else {
                     RegistroHucha ventanaRH = new RegistroHucha();
@@ -271,7 +303,6 @@ public class Principal extends JFrame implements ActionListener{
                 ventanaRH.setLocationRelativeTo(null);
                 this.dispose();
             }
-
 
         }
         //BOTÓN MODO OSCURO

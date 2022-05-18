@@ -79,7 +79,7 @@ public class Login extends JFrame implements ActionListener {
         add(boton2);
     }
     
-    private void login(String valid_pin, String pin, String name, String res) {
+    private void login(String valid_pin, String pin, String name) {
     	/* Descripción
     	 * El método login va a comprobar 
     	 * 1) si el PIN es vacío, en cuyo caso mostrará un mensaje pop-up de error
@@ -106,7 +106,7 @@ public class Login extends JFrame implements ActionListener {
     		
     	} catch (FileNotFoundException exc1) {
     		try {
-                        register(res, name, pin, false);
+                        register(name, pin, false);
                         JOptionPane.showMessageDialog(null, "Registro completado con éxito. Su PIN es: " + pin, "Registro", JOptionPane.INFORMATION_MESSAGE);
                         valid_pin = pin;
                         registered = true;
@@ -121,7 +121,7 @@ public class Login extends JFrame implements ActionListener {
                 }
     	} catch (NotRegisteredException exc2) {
     		try {
-                        register(res, name, pin, true);
+                        register(name, pin, true);
                         JOptionPane.showMessageDialog(null,"Registro completado con éxito. Su PIN es: " + pin, "Registro", JOptionPane.INFORMATION_MESSAGE);
                         valid_pin = pin;
                         registered = true;
@@ -159,7 +159,7 @@ public class Login extends JFrame implements ActionListener {
     	
     }
     
-    private void register(String res, String name, String pin, boolean exists) throws IOException 
+    private void register(String name, String pin, boolean exists) throws IOException 
     {
     	/*
     	 * El método register:
@@ -169,21 +169,13 @@ public class Login extends JFrame implements ActionListener {
     	if(!exists) { 
     		File file = new File("./database.txt");
     		file.createNewFile();
-                File file1 = new File("./recuperacion.txt");
-                file1.createNewFile();
     	} 
         name = JOptionPane.showInputDialog("Introduzca su nombre");
-        res = JOptionPane.showInputDialog("¿Cuál sería tu trabajo ideal?");
         try (PrintWriter pw = new PrintWriter("database.txt")) {
             pw.print(name);
             pw.print(":");
             pw.print(pin);
-            pw.close();
         }
-        try (PrintWriter pw1 = new PrintWriter("recuperacion.txt")) {
-            pw1.print(res);
-            pw1.close();
-        }        
    }
     
     @Override
@@ -192,16 +184,15 @@ public class Login extends JFrame implements ActionListener {
             String valid_pin = null;
             String pin = textfield1.getText().trim(); //trim hace que elimina los espacios anteriores al texto
             String name = "";
-            String res = "";
-            login(valid_pin, pin, name, res); //Ejecuta el método login
+            login(valid_pin, pin, name); //Ejecuta el método login
         }
         if(e.getSource() == boton2){
-            Recuperacion ventanaRecuperacion = new Recuperacion();
-            ventanaRecuperacion.setBounds(0,0,640,535);
-            ventanaRecuperacion.setVisible(true);
-            ventanaRecuperacion.setResizable(false);
-            ventanaRecuperacion.setLocationRelativeTo(null);
-            this.dispose();                    
+            // Recuperacion ventanaRecuperacion = new Recuperacion();
+        	// ventanaRecuperacion.setBounds(0,0,350,450);
+        	// ventanaRecuperacion.setVisible(true);
+        	// ventanaRecuperacion.setResizable(false);
+        	// ventanaRecuperacion.setLocationRelativeTo(null);
+            // this.dispose();
         }
     }
     
