@@ -9,8 +9,8 @@ import java.awt.*;
 /*
  * @author Maximo
  * 
- * 
  */
+
 public class Login extends JFrame implements ActionListener {
     private JTextField textfield1; //JTextField es el campo donde se introducirá el Pin
     private JLabel label1, label2, label3, label4; //Variables
