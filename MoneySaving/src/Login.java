@@ -7,7 +7,9 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 import java.awt.*;
 /*
- * @author maximo
+ * @author Maximo
+ * 
+ * 
  */
 public class Login extends JFrame implements ActionListener {
     private JTextField textfield1; //JTextField es el campo donde se introducirá el Pin
