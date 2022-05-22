@@ -365,44 +365,45 @@ public class Cuenta extends JFrame implements ActionListener {
         cant = recuperarCantTotal();            
     }
 
-    // public void recordatorio() {
-    //     int total = 0;
-    //     String[] concepto;
-    //     String[] cantidad;
-    //     int[] tiempo;
-
-    //     try (Scanner sc = new Scanner(new File("databaseIngresoFijo.txt"))) {
-    //         while(sc.hasNextLine()) {
-    //             total += 1;
-    //         }
-    //         total %= 3;
-    //         // concepto = new String[total];
-    //         // cantidad = new String[total];
-    //         tiempo = new int[total];
-
-    //         try (Scanner sc1 = new Scanner(new File("databaseIngresoFijo.txt"))) {
-    //             for (int i = 0; i < total; i++) {
-    //                 // concepto[i] = sc1.nextLine();
-    //                 // cantidad[i] = sc1.nextLine();
-    //                 tiempo[i] = Integer.parseInt(sc1.nextLine());
-    //                 javax.swing.Timer timer = new javax.swing.Timer(tiempo[i]*60*1000, new ActionListener() 
-    //                 {
-    //                     @Override
-    //                     public void actionPerformed(ActionEvent e) {
-    //                         // JOptionPane.showMessageDialog(null, "Ingreso Fijo (" + concepto[i] + ", " + cantidad[i] + ")");
-    //                         JOptionPane.showMessageDialog(null, "Ingreso Fijo ");
-    //                     }
-                        
-    //                 });
-    //                 timer.start();
-    //             }
-    //         } catch (FileNotFoundException e) {
-    //             e.printStackTrace();
-    //         }
-    //     } catch (FileNotFoundException e) {
-    //         e.printStackTrace();
-    //     }
-    // }
+//     public void recordatorio() {
+//         int total = 0;
+//         String[] concepto;
+//         String[] cantidad;
+//         int[] tiempo;
+//
+//         try (Scanner sc = new Scanner(new File("databaseIngresoFijo.txt"))) {
+//             while(sc.hasNextLine()) {
+//                 total += 1;
+//             }
+//             total %= 3;
+//             // concepto = new String[total];
+//             // cantidad = new String[total];
+//             tiempo = new int[total];
+//
+//             try (Scanner sc1 = new Scanner(new File("databaseIngresoFijo.txt"))) {
+//                 for (int i = 0; i < total; i++) {
+//                     // concepto[i] = sc1.nextLine();
+//                     // cantidad[i] = sc1.nextLine();
+//                     tiempo[i] = Integer.parseInt(sc1.nextLine());
+//                     javax.swing.Timer timer = new javax.swing.Timer(tiempo[i]*60*1000, new ActionListener()
+//                     
+//                     {
+//                         @Override
+//                         public void actionPerformed(ActionEvent e) {
+//                             // JOptionPane.showMessageDialog(null, "Ingreso Fijo (" + concepto[i] + ", " + cantidad[i] + ")");
+//                             JOptionPane.showMessageDialog(null, "Ingreso Fijo ");
+//                         }
+//                        
+//                     });
+//                     timer.start();
+//                 }
+//             } catch (FileNotFoundException e) {
+//                 e.printStackTrace();
+//             }
+//         } catch (FileNotFoundException e) {
+//             e.printStackTrace();
+//         }
+//     }
     
 
 public static void main(String[] args){

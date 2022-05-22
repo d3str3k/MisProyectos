@@ -84,6 +84,14 @@ public class Login extends JFrame implements ActionListener {
         add(boton2);
     }
     
+    public boolean check_registered() {
+    	try(File f1 = new File("database.txt")) {
+    		return f1.exists();
+    	} catch (FileNotFoundException e) {
+    		return false;
+    	}
+    }
+    
     public void login(String valid_pin, String pin, String name) {
     	/* Descripción
     	 * El método login va a comprobar 
