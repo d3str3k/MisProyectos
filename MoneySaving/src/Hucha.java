@@ -23,11 +23,10 @@ public class Hucha extends JFrame implements ActionListener {
     private int[] date = new int[3]; // dd/mm/yyyy
     private double ahorroAcumulado;
     
-    private JTextField insertName, insertCount;
-    private JTextField insertYear, insertMonth, insertDay;
+    
     private JTextField insertMas;
     private JLabel label1, label2, label3, label4, labelLogo;
-    private JButton buttonRitmoAhorro, buttonAhorroMas, buttonAceptarConfirmacion, buttonRechazarConfirmacion, botonHome, buttonCambioRitmo;
+    private JButton buttonRitmoAhorro, buttonAhorroMas, botonHome;
     private Choice choice;
 
     DecimalFormat df = new DecimalFormat("#.#####");
