@@ -17,7 +17,7 @@ public class Principal extends JFrame implements ActionListener{
     private JMenu menuAjustes,menuAcercaDe, menuColor;
     private JMenuItem menuOscuro, menuItemClaro, menuitemTerminos, menuitemRecuperacion, menuItemNotificaciones;
     //Textos
-    private JLabel labelLogo,labelBienvenido;
+    private JLabel labelLogo,labelBienvenido, labelSavingTips;
     //Botones
     private JButton botonCuenta, botonHucha, botonTriangularAccount, botonHome, botonExit;
     //Ãƒï¿½rea de texto
@@ -148,7 +148,7 @@ public class Principal extends JFrame implements ActionListener{
 //-----------------------------------------------------------------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
-//                    TEXTO BIENVENIDA
+//                    TEXTO
         labelBienvenido = new JLabel("Bienvenido " + database[0]);  
         labelBienvenido.setBounds(235,30,300,50);
         labelBienvenido.setFont(new Font("Andale Mono", 1, 26));
@@ -193,7 +193,14 @@ public class Principal extends JFrame implements ActionListener{
 //-----------------------------------------------------------------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
-//              ÁREA DE TEXTO
+//              ÁREA DE TEXTO MONEYSAVING TIPS
+        
+        labelSavingTips = new JLabel("SavingTips");  
+        labelSavingTips.setBounds(330,230,180,100);
+        labelSavingTips.setFont(new Font("Andale Mono", 1, 14));
+        labelSavingTips.setForeground(wordBlack);
+        add(labelSavingTips);
+        
         MoneySavingTips monkey = new MoneySavingTips();
         int rnd = (int) (Math.random() * (monkey.numPhrases - 0)) + 0;
         textarea1 = new JTextArea();
