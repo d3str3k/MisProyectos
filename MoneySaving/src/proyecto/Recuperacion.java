@@ -7,6 +7,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 /*
@@ -19,19 +22,45 @@ import java.util.Scanner;
  * @author necro
  */
 public class Recuperacion extends JFrame implements ActionListener{
-    private JLabel label1, label2;
+    private JLabel label1, label2, label3;
     private JComboBox comboProfesion;
-    private JButton btn_return;
-    private String profession;
+    private JButton btn_return, botonExit;
+    private String profession, p1_fake, p2_fake;
+    private String [] database;
+    private String [] professions = new String [43];
+    private String[] random = new String[3];
+    private int rnd1, rnd2, rnd3;
     
     public Recuperacion() {
         try(Scanner sc = new Scanner(new File("./recuperacion.txt"))) {
-            profession = sc.next();
+            profession = sc.nextLine();
         } catch (Exception e) {
             System.out.println("No se ha podido leer recuperacion.txt");
         }
         
+        try(Scanner sc1 = new Scanner(new File("profesiones.txt"))) {
+        	String aux = sc1.next();
+        	professions = aux.split("[:]");
+        } catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
+        rnd1 = (int) (Math.random() * (43 - 0)) + 0;
+        rnd2 = (int) (Math.random() * (43 - 0)) + 0;
+        while(rnd1 == rnd2) {
+            rnd2 = (int) (Math.random() * (43 - 0)) + 0;
+        }
+        
+        rnd3 = (int) (Math.random() * (3 - 0)) + 0;
+        
+        random[0] = professions[rnd1];
+        random[1] = professions[rnd2];
+        random[2] = profession;
+        
+        List<String> random_professions = Arrays.asList(random[0], random[1], random[2]);
+        Collections.shuffle(random_professions);
+
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE); //El programa no quedará en segundo plano (muere) cuando se cierra la interfaz
         // La interfaz gr�fica tiene 3 caracter�sticas fuera de los componentes: el título, un icono y el background. Estos componentes se indican en el constructor
@@ -57,23 +86,30 @@ public class Recuperacion extends JFrame implements ActionListener{
         label2.setBounds(60,240,220,25);
         add(label2);
         
+        label3 = new JLabel("©Enigma");
+        label3.setBounds(150,375,300,30);
+        label3.setFont(new Font("Andale Mono", 1, 12)); //Seleccionar la fuente, estilo (cursiva,...), tamaÃ±o (en pÃ­xeles)
+        label3.setForeground(Principal.wordBlack); //Seleccionar color texto
+        add(label3);
+        
         comboProfesion = new JComboBox();
         comboProfesion.setBounds(60,273,220,25);
         comboProfesion.setBackground(Principal.ButtonColor);
         comboProfesion.setFont(new Font("Andale Mono", 1, 14));
         comboProfesion.setForeground(Principal.wordBlack);
         add(comboProfesion);
-        comboProfesion.addItem("Granjer@");
-        comboProfesion.addItem("Pescador/a");
-        comboProfesion.addItem(profession); 
+        comboProfesion.addItem(random_professions.get(0));
+        comboProfesion.addItem(random_professions.get(1));
+        comboProfesion.addItem(random_professions.get(2)); 
        
         btn_return =  new JButton("Ingresar");
-        btn_return.setBounds(125,300,100,30);
+        btn_return.setBounds(125,310,100,30);
         btn_return.setBackground(Principal.ButtonColor);
         btn_return.setFont(new Font("Andale Mono", 1, 14));
         btn_return.setForeground(Principal.wordWhite);
         btn_return.addActionListener(this); //El componente al que se le va a agregar el evento es a este botón
         add(btn_return);
+        
     }
     
     private boolean check_in() {

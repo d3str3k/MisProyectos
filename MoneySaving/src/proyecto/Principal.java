@@ -150,7 +150,7 @@ public class Principal extends JFrame implements ActionListener{
 //-----------------------------------------------------------------------------------------------------------------------------------------
 //                    TEXTO
         labelBienvenido = new JLabel("Bienvenido " + database[0]);  
-        labelBienvenido.setBounds(235,30,300,50);
+        labelBienvenido.setBounds(215,30,300,50);
         labelBienvenido.setFont(new Font("Andale Mono", 1, 26));
         labelBienvenido.setForeground(wordBlack);
         add(labelBienvenido);
@@ -265,8 +265,7 @@ public class Principal extends JFrame implements ActionListener{
         }
         //BOTÓN MENÚ TÉRMINOS Y CONDICIONES DE SERVICIO
         if(e.getSource() == menuitemTerminos) {
-            JOptionPane.showMessageDialog(null, "\\n\\n \\t\\t     COMO NUEVO USUARIO DEL SISTEMA MONEYSAVING SE COMPROMETE\" +\r\n"
-            		+ "                    \"\\n\\n \\t\\t     1) A aprobar el proyecto MoneySaving con una nota mÃ­nma de 5.", "TÃƒÂ©rminos y Condiciones de Servicio", JOptionPane.DEFAULT_OPTION);        
+            JOptionPane.showMessageDialog(null, "COMO NUEVO USUARIO DEL SISTEMA MONEYSAVING SE COMPROMETE \n    1) A aprobar el proyecto MoneySaving con una nota mínma de 5.", "Términos y Condiciones de Servicio", JOptionPane.DEFAULT_OPTION);        
         }
         //BOTÓN TRIANGULAR ACCOUNT
         if(e.getSource() == botonTriangularAccount){

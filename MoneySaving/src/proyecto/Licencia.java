@@ -100,7 +100,7 @@ public class Licencia extends JFrame implements ActionListener, ChangeListener{
             ventanaPrincipal.setResizable(false);
             ventanaPrincipal.setLocationRelativeTo(null);
             // DesktopNotify.showDesktopMessage("Bienvenido a MoneySaving", , DesktopNotify.SUCCESS);
-            JOptionPane.showMessageDialog(null, "Te damos la bienvenida a la mejor aplicación de gestoría de ahorros. Disfruta de nuestro servicio :)", "Bienvenido a MoneySaving", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Te damos la bienvenida a la mejor aplicaci�n de gestora de ahorros. Disfruta de nuestro servicio :)", "Bienvenido a MoneySaving", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
         } else if (action.getSource() == button2) {
             try (// Elimina los datos
@@ -116,7 +116,7 @@ public class Licencia extends JFrame implements ActionListener, ChangeListener{
             ventanaLogin.setVisible(true);
             ventanaLogin.setResizable(false);  
             ventanaLogin.setLocationRelativeTo(null);
-            this.dispose(); //dispose() es un m�todo que hace que la ventana JFrame sea destruida y limpiada del sistema ¿Qué es mejor: invisibilizar esta ventana o eliminarla?
+            this.dispose(); //dispose() manda a la verga la clase y por tanto tambi�n la interfaz
         }
     }
     
