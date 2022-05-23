@@ -128,7 +128,7 @@ public class Principal extends JFrame implements ActionListener{
         menuAcercaDe.setForeground(wordWhite);
         mb.add(menuAcercaDe);
 
-        menuitemTerminos = new JMenuItem("TÃ©rminos y Condiciones");
+        menuitemTerminos = new JMenuItem("T�rminos y Condiciones");
         menuitemTerminos.setBackground(wordWhite);
         menuitemTerminos.setFont(new Font("Andale Mono", 1, 14));
         menuitemTerminos.setForeground(wordBlack);
@@ -141,7 +141,7 @@ public class Principal extends JFrame implements ActionListener{
         ImageIcon imageIcon = new ImageIcon(getClass().getResource("/images/enigma-logo.png"));
         Image image = imageIcon.getImage();//1
         Image newimage = image.getScaledInstance(200,75, java.awt.Image.SCALE_SMOOTH);//2
-        imageIcon = new ImageIcon(newimage);//3 estas tres lÃƒÂ­neas sirven para que la imagen se cargue correctamente
+        imageIcon = new ImageIcon(newimage);//estas tres l�neas sirven para que la imagen se cargue correctamente
         labelLogo = new JLabel(imageIcon);  
         labelLogo.setBounds(330,120,250,100);
         add(labelLogo);
@@ -193,11 +193,11 @@ public class Principal extends JFrame implements ActionListener{
 //-----------------------------------------------------------------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
-//              Ã�REA DE TEXTO
+//              �REA DE TEXTO
         MoneySavingTips monkey = new MoneySavingTips();
         int rnd = (int) (Math.random() * (monkey.numPhrases - 0)) + 0;
         textarea1 = new JTextArea();
-        textarea1.setEditable(false); // El usuario no podrÃƒÆ’Ã‚Â¡ modificar el texto que estÃƒÆ’Ã‚Â© dentro de JTextArea
+        textarea1.setEditable(false); // El usuario no podr� modificar el texto que est� dentro de JTextArea
         textarea1.setFont(new Font("Andale Mono", 0, 9));
         textarea1.setText("\n\n " + monkey.getTips(rnd));
         textarea1.setBackground(ButtonColor);
@@ -244,10 +244,10 @@ public class Principal extends JFrame implements ActionListener{
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
-//                      ACCIONES DE MENÃš Y BOTONES
+//                      ACCIONES DE MEN� Y BOTONES
 
     public void actionPerformed(ActionEvent e) {
-        //BOTÃ“N MENÃš RECUPERACIÃ“N CONTRASEÃ‘A
+        //BOT�N MEN� RECUPERACI�N CONTRASENYA
         if(e.getSource() == menuitemRecuperacion) {
         	// Recuperacion ventanaRecuperacion = new Recuperacion();
         	// ventanaRecuperacion.setBounds(0,0,350,450);
@@ -256,15 +256,16 @@ public class Principal extends JFrame implements ActionListener{
         	// ventanaRecuperacion.setLocationRelativeTo(null);
             // this.dispose();
         }
-        //BOTÃ“N MENÃš TÃ‰RMINOS Y CONDICIONES DE SERVICIO
+        //BOT�N MEN� T�RMINOS Y CONDICIONES DE SERVICIO
         if(e.getSource() == menuitemTerminos) {
-            JOptionPane.showMessageDialog(null, "", "TÃ©rminos y Condiciones de Servicio", JOptionPane.DEFAULT_OPTION);        
+            JOptionPane.showMessageDialog(null, "\\n\\n \\t\\t     COMO NUEVO USUARIO DEL SISTEMA MONEYSAVING SE COMPROMETE\" +\r\n"
+            		+ "                    \"\\n\\n \\t\\t     1) A aprobar el proyecto MoneySaving con una nota mínma de 5.", "TÃ©rminos y Condiciones de Servicio", JOptionPane.DEFAULT_OPTION);        
         }
-        //BOTÃ“N TRIANGULAR ACCOUNT
+        //BOT�N TRIANGULAR ACCOUNT
         if(e.getSource() == botonTriangularAccount){
             
         }
-        //BOTÃ“N CUENTA
+        //BOT�N CUENTA
         if(e.getSource() == botonCuenta){
             cuenta.setBounds(0,0,350,450);
             cuenta.setVisible(true);
@@ -273,7 +274,7 @@ public class Principal extends JFrame implements ActionListener{
             this.dispose();
         }
         
-        //BOTÃ“N HUCHA
+        //BOT�N HUCHA
         if(e.getSource() == botonHucha){
             // Condicional por si hay hucha o no para acceder a registroHucha o  a hucha
     		File huchaExiste = new File("/databaseHucha.txt");

@@ -6,6 +6,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 /*
@@ -24,11 +25,12 @@ public class Recuperacion extends JFrame implements ActionListener{
     private String profession;
     
     public Recuperacion() {
-        try(Scanner sc = new Scanner(new File("recuperacion.txt"))) {
+        try(Scanner sc = new Scanner(new File("./recuperacion.txt"))) {
             profession = sc.next();
         } catch (Exception e) {
             System.out.println("No se ha podido leer recuperacion.txt");
         }
+        
         
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE); //El programa no quedará en segundo plano (muere) cuando se cierra la interfaz
@@ -83,12 +85,40 @@ public class Recuperacion extends JFrame implements ActionListener{
 
     }
     
+    private void block_account() throws FileNotFoundException {
+//    	String [] database = new String[3];
+//    	String name;
+//    	String valid_pin;
+//    	try (Scanner sc = new Scanner(new File("database.txt"))) { 
+//    		boolean check = sc.hasNext(); // se checkea si el archivo abierto tiene un int
+//    		if(check) {
+//                    String aux = sc.next(); // como lo tiene lo carga en pin valido
+//                    database = aux.split("[:]");
+//                    name = database[0];
+//                    valid_pin = database[1];
+//    		} else {
+//    			throw new NotRegisteredException("Usuario no registrado");
+//    		}
+//    		
+//    	} catch (Exception e) {
+//    		JOptionPane.showMessageDialog(null, "No debería de estar aquí", "", JOptionPane.PLAIN_MESSAGE);
+//    	}
+    	try (PrintWriter pw = new PrintWriter("./database.txt")) {
+            pw.print("/");
+            pw.print(":");
+            pw.print("/");
+            pw.print(":");
+            pw.print("false");
+            pw.close();
+        }
+    }
+    
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == btn_return) {
         	String valid_pin = "";
-            if(check_in()) {
+            if(check_in()){
             	String [] database;
-            	try (Scanner sc = new Scanner(new File("database.txt"))) {
+            	try (Scanner sc = new Scanner(new File("./database.txt"))) {
             		boolean check = sc.hasNext(); 
             		if(check) {
                             String aux = sc.next(); 
@@ -111,17 +141,24 @@ public class Recuperacion extends JFrame implements ActionListener{
 	                ventanaLogin.setResizable(false);  
 	                ventanaLogin.setLocationRelativeTo(null);
 	                this.dispose();
-            	}
-            } else {
-                JOptionPane.showMessageDialog(null, "Repuesta introducida inválida" ,"Error en autenticación", JOptionPane.ERROR_MESSAGE);
-            }
-        }
+            	} else {
+            		JOptionPane.showMessageDialog(null, "Repuesta introducida inválida" ,"Error en autenticación", JOptionPane.ERROR_MESSAGE);
+            		try {
+						block_account();
+					} catch (FileNotFoundException e1) {
+						JOptionPane.showMessageDialog(null,  "", "Error fatal", JOptionPane.ERROR);
+						e1.printStackTrace();
+						e1.getMessage();
+					}
+                }
+        	}
+    	}
     
 
     
     public static void main(String[] args) {
         Recuperacion ventanaRecuperacion = new Recuperacion();
-        ventanaRecuperacion.setBounds(0,0,640,535);
+        ventanaRecuperacion.setBounds(0,0,350,450);
         ventanaRecuperacion.setVisible(true);
         ventanaRecuperacion.setResizable(false);
         ventanaRecuperacion.setLocationRelativeTo(null);

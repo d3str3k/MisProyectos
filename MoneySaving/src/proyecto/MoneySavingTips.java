@@ -10,7 +10,7 @@ import java.util.Scanner;
  */
 public class MoneySavingTips {  
     private String tip;
-    public static final int numPhrases = 5;
+    public static final int numPhrases = 99;
     
     public MoneySavingTips () {
 //        numPhrases = 0;

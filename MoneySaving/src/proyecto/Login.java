@@ -19,6 +19,7 @@ public class Login extends JFrame implements ActionListener {
     private JLabel label1, label2, label3, label4; //Variables
     private JButton boton1, boton2; // BotÃ³n para ingresar el PIN
     public static String [] database = new String[2];
+    private int cnt_intentos = 0;
     
     public Login () {
         setLayout(null);
@@ -54,7 +55,7 @@ public class Login extends JFrame implements ActionListener {
         label3.setForeground(Principal.wordBlack); //Seleccionar color texto
         add(label3);
         
-        label4 = new JLabel("Â©Enigma");
+        label4 = new JLabel("©Enigma");
         label4.setBounds(150,375,300,30);
         label4.setFont(new Font("Andale Mono", 1, 12)); //Seleccionar la fuente, estilo (cursiva,...), tamaÃ±o (en pÃ­xeles)
         label4.setForeground(Principal.wordBlack); //Seleccionar color texto
@@ -75,8 +76,8 @@ public class Login extends JFrame implements ActionListener {
         boton1.addActionListener(this); //El componente al que se le va a agregar el evento es a este botÃ³n
         add(boton1);
 
-        boton2 =  new JButton("Â¿Has olvidado tu contraseÃ±a?");
-        boton2.setBounds(60,320,230,30);
+        boton2 =  new JButton("¿Has olvidado tu contraseña?");
+        boton2.setBounds(38,320,270,30);
         boton2.setBackground(Principal.ButtonColor);
         boton2.setFont(new Font("Andale Mono", 1, 14));
         boton2.setForeground(Principal.wordWhite);
@@ -84,15 +85,48 @@ public class Login extends JFrame implements ActionListener {
         add(boton2);
     }
     
-    public boolean check_registered() {
-    	try(File f1 = new File("database.txt")) {
-    		return f1.exists();
-    	} catch (FileNotFoundException e) {
-    		return false;
-    	}
+//    public boolean check_registered() {
+//    	try(File f1 = new File("database.txt")) {
+//    		return f1.exists();
+//    	} catch (FileNotFoundException e) {
+//    		return false;
+//    	}
+//    }
+    
+    private void block_account() throws FileNotFoundException {
+    	try (PrintWriter pw = new PrintWriter("./database.txt")) {
+            pw.print("/");
+            pw.print(":");
+            pw.print("/");
+            pw.print(":");
+            pw.print("false");
+            pw.close();
+        }
     }
     
-    public void login(String valid_pin, String pin, String name) {
+    private boolean recoverable() {
+    	try (Scanner sc = new Scanner(new File("./database.txt"))) {
+    		boolean check = sc.hasNext(); // se checkea si el archivo abierto tiene un int
+    		if(check) {
+                    String aux = sc.next(); // como lo tiene lo carga en pin valido
+                    database = aux.split("[:]");
+                    if(Boolean.parseBoolean(database[2])) {
+                    	return true;
+                    } else {
+                    	return false;
+                    }
+    		} else {
+    			JOptionPane.showMessageDialog(null,  "No hay ningún usuario dado de alta en el sistema", "", JOptionPane.INFORMATION_MESSAGE);
+    		}
+    	} catch (FileNotFoundException e) { 
+			JOptionPane.showMessageDialog(null,  "No hay ningún usuario dado de alta en el sistema", "", JOptionPane.INFORMATION_MESSAGE);
+    	} catch (Exception e1) {
+    		JOptionPane.showMessageDialog(null,  "Ha ocurrido un error en la lectura de sus datos", "Error", JOptionPane.ERROR_MESSAGE);
+    	}
+    	return false;
+    }
+    
+    public void login(String valid_pin, String pin, String name) throws FileNotFoundException {
     	/* DescripciÃ³n
     	 * El mÃ©todo login va a comprobar 
     	 * 1) si el PIN es vacÃ­o, en cuyo caso mostrarÃ¡ un mensaje pop-up de error
@@ -105,58 +139,64 @@ public class Login extends JFrame implements ActionListener {
     	 * 	2.3) Si el archivo existe pero no almacena ningÃºn PIN entonces llama a registrar con booleano true para indicar que el fichero sÃ­ existe
     	 * 
     	 */
-    	boolean registered = false;
-    	try (Scanner sc = new Scanner(new File("database.txt"))) {
-    		boolean check = sc.hasNext(); // se checkea si el archivo abierto tiene un int
-    		if(check) {
-                    String aux = sc.next(); // como lo tiene lo carga en pin valido
-                    database = aux.split("[:]");
-                    name = database[0];
-                    valid_pin = database[1];
-    		} else {
-    			throw new NotRegisteredException("Usuario no registrado");
-    		}
-    		
-    	} catch (Exception exc1) {
-    		try {
-                registered = register(name, pin, false);
-                if(registered) {
-                    JOptionPane.showMessageDialog(null, "Registro completado con Ã©xito. Su PIN es: " + pin, "Registro", JOptionPane.INFORMATION_MESSAGE);
-                    valid_pin = pin;
-                    database[0] = name;
-                    database[1] = valid_pin;
-                }
-                        
-            } catch (FileNotFoundException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-            } catch (IOException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-            }
-    	}
-        if(pin.equals("")) {
+    	if(pin.equals("")) {
             JOptionPane.showMessageDialog(null, "Debes de ingresar tu PIN", "Error Login", JOptionPane.ERROR_MESSAGE);
-        } else if (pin.equals(valid_pin) && registered == false){
-            Principal ventanaPrincipal = new Principal();
-            ventanaPrincipal.setBounds(0,0,640,535);
-            ventanaPrincipal.setVisible(true);
-            ventanaPrincipal.setResizable(false);
-            ventanaPrincipal.setLocationRelativeTo(null);
-            this.dispose();
-        } else if (pin.equals(valid_pin) && registered == true) {
-            Licencia ventanaLicencia = new Licencia();
-            ventanaLicencia.setBounds(0,0,600,360);
-            ventanaLicencia.setVisible(true);
-            ventanaLicencia.setResizable(false);
-            ventanaLicencia.setLocationRelativeTo(null);
-            this.dispose();
+        } else {
+        	boolean registered = false;
+        	try (Scanner sc = new Scanner(new File("./database.txt"))) {
+        		boolean check = sc.hasNext(); // se checkea si el archivo abierto tiene un int
+        		if(check) {
+                        String aux = sc.next(); // como lo tiene lo carga en pin valido
+                        database = aux.split("[:]");
+                        name = database[0];
+                        valid_pin = database[1];
+        		} else {
+        			throw new NotRegisteredException("Usuario no registrado");
+        		}
+        		
+        	} catch (Exception exc1) {
+        		try {
+                    registered = register(name, pin, false);
+                    if(registered) {
+                        JOptionPane.showMessageDialog(null, "Registro completado con éxito. Su PIN es: " + pin, "Registro", JOptionPane.INFORMATION_MESSAGE);
+                        valid_pin = pin;
+                        database[0] = name;
+                        database[1] = valid_pin;
+                    }
+                            
+                } catch (FileNotFoundException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                } catch (IOException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                }
+        	}
+        	if (pin.equals(valid_pin) && registered == false){
+        		Principal ventanaPrincipal = new Principal();
+                ventanaPrincipal.setBounds(0,0,640,535);
+                ventanaPrincipal.setVisible(true);
+                ventanaPrincipal.setResizable(false);
+                ventanaPrincipal.setLocationRelativeTo(null);
+                this.dispose();            
+            } else if (pin.equals(valid_pin) && registered == true) {
+                Licencia ventanaLicencia = new Licencia();
+                ventanaLicencia.setBounds(0,0,600,360);
+                ventanaLicencia.setVisible(true);
+                ventanaLicencia.setResizable(false);
+                ventanaLicencia.setLocationRelativeTo(null);
+                this.dispose();
+            }
+            else if (!(pin.equals(valid_pin))){
+                JOptionPane.showMessageDialog(null, "El PIN introducido es inválido", "Error Login", JOptionPane.ERROR_MESSAGE);
+                ++cnt_intentos;
+                if(cnt_intentos == 3) {
+                	block_account();
+                }
+            } 
         }
-        else if (!(pin.equals(valid_pin)) && registered == true){
-            JOptionPane.showMessageDialog(null, "El PIN introducido es invÃ¡lido", "Error Login", JOptionPane.ERROR_MESSAGE);
-        } 
-    	
-    }
+    }	
+
     
     public boolean register(String name, String pin, boolean exists) throws IOException 
     {
@@ -175,11 +215,13 @@ public class Login extends JFrame implements ActionListener {
         if(name == null || name.isEmpty()) {
             return false;
         } else {
-            String respuesta = JOptionPane.showInputDialog("Â¿CuÃ¡l es su profesiÃ³n ideal?");
+            String respuesta = JOptionPane.showInputDialog("¿Cuál es su profesión ideal?");
             try (PrintWriter pw = new PrintWriter("./database.txt")) {
                 pw.print(name);
                 pw.print(":");
                 pw.print(pin);
+                pw.print(":");
+                pw.print("true");
                 pw.close();
             }
             try (PrintWriter pw = new PrintWriter("./recuperacion.txt")) {
@@ -196,15 +238,24 @@ public class Login extends JFrame implements ActionListener {
             String valid_pin = null;
             String pin = textfield1.getText().trim(); //trim hace que elimina los espacios anteriores al texto
             String name = "";
-            login(valid_pin, pin, name); //Ejecuta el mÃ©todo login
+            try {
+				login(valid_pin, pin, name);
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} 
         }
         if(e.getSource() == boton2){
-            Recuperacion ventanaRecuperacion = new Recuperacion();
-            ventanaRecuperacion.setBounds(0,0,350,450);
-            ventanaRecuperacion.setVisible(true);
-            ventanaRecuperacion.setResizable(false);
-            ventanaRecuperacion.setLocationRelativeTo(null);
-            this.dispose();
+        	if (recoverable()) {
+        		Recuperacion ventanaRecuperacion = new Recuperacion();
+                ventanaRecuperacion.setBounds(0,0,350,450);
+                ventanaRecuperacion.setVisible(true);
+                ventanaRecuperacion.setResizable(false);
+                ventanaRecuperacion.setLocationRelativeTo(null);
+                this.dispose();
+        	} else {
+        		JOptionPane.showMessageDialog(null,  "Su cuenta no es recuperable", "Error", JOptionPane.CANCEL_OPTION);
+        	}
         }
     }
     
