@@ -3,8 +3,6 @@ package proyecto;
 
 import javax.swing.*;
 
-import proyecto.StopWatch.StopTask;
-
 import java.awt.event.*;
 
 import java.io.File;
@@ -312,41 +310,7 @@ public class Cuenta extends JFrame implements ActionListener {
         }
     }        
     
-    //Sinceramente los try y catch no los entiendo pero si los quito me da error
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == botonHome) {
-            Principal menu = new Principal();
-            menu.setBounds(0,0,640,535);
-            menu.setVisible(true);
-            menu.setResizable(false);
-            menu.setLocationRelativeTo(null);
-        }
-        else if(e.getSource() == btn_ing){
-            try {
-                nuevoIngreso();
-            } catch (IOException ex) {
-                Logger.getLogger(Cuenta.class.getName()).log(Level.SEVERE, null, ex);
-            }
-                lab_cant.setText(cant + "€");
-        }
-        else if(e.getSource() == btn_gasto){
-            try {
-                nuevoGasto();
-            } catch (IOException ex) {
-                Logger.getLogger(Cuenta.class.getName()).log(Level.SEVERE, null, ex);
-            }
-                lab_cant.setText(cant + "€");
-        }
-        else if(e.getSource() == btn_fijo){
-            try {
-                nuevoIngresoFijo();
-            } catch (IOException ex) {
-                Logger.getLogger(Cuenta.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            lab_cant.setText(cant + "€");
-        }
-    }
+   
 
     public void gastoHucha(double gasto) throws IOException{
         /*Funciona como cualquier otro gasto pero en lugar de un concepto
@@ -404,14 +368,6 @@ public class Cuenta extends JFrame implements ActionListener {
     	        cant = recuperarCantTotal();
     			JOptionPane.showMessageDialog(null, "Se ha actualizado un ingreso fijo de " + 
     			cant_ing + "€ por " + conc_ing);
-    			/*
-    	        this.remove(lab_cant);
-    	        lab_cant = new JLabel(recuperarCantTotal());
-    	        lab_cant.setBounds(150,50,300,30);
-    	        add(lab_cant);
-    	        revalidate();
-    	        repaint();
-    	        */
     		}
     	};
     	timer.scheduleAtFixedRate(task, 0, minutos);
@@ -456,7 +412,43 @@ public class Cuenta extends JFrame implements ActionListener {
     //     }
     // }
     
-
+    //Sinceramente los try y catch no los entiendo pero si los quito me da error
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == botonHome) {
+            Principal menu = new Principal();
+            menu.setBounds(0,0,640,535);
+            menu.setVisible(true);
+            menu.setResizable(false);
+            menu.setLocationRelativeTo(null);
+            this.dispose();
+        }
+        else if(e.getSource() == btn_ing){
+            try {
+                nuevoIngreso();
+            } catch (IOException ex) {
+                Logger.getLogger(Cuenta.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                lab_cant.setText(cant + "€");
+        }
+        else if(e.getSource() == btn_gasto){
+            try {
+                nuevoGasto();
+            } catch (IOException ex) {
+                Logger.getLogger(Cuenta.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                lab_cant.setText(cant + "€");
+        }
+        else if(e.getSource() == btn_fijo){
+            try {
+                nuevoIngresoFijo();
+            } catch (IOException ex) {
+                Logger.getLogger(Cuenta.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            lab_cant.setText(cant + "€");
+        }
+    }
+    
 public static void main(String[] args){
     Cuenta c = new Cuenta();
         c.setBounds(0,0,350,450);
