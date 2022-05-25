@@ -366,8 +366,11 @@ public class Cuenta extends JFrame implements ActionListener {
 				}
     	       
     	        cant = recuperarCantTotal();
-    			JOptionPane.showMessageDialog(null, "Se ha actualizado un ingreso fijo de " + 
-    			cant_ing + "€ por " + conc_ing);
+    	        if(Principal.notificacionesOn) {
+    	        	JOptionPane.showMessageDialog(null, "Se ha actualizado un ingreso fijo de " + 
+    	        			cant_ing + "€ por " + conc_ing);
+    	        }
+    		
     		}
     	};
     	timer.scheduleAtFixedRate(task, 0, minutos);

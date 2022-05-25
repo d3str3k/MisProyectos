@@ -18,7 +18,7 @@ public class Login extends JFrame implements ActionListener {
     private JTextField textfield1; //JTextField es el campo donde se introducirÃ¡ el Pin
     private JLabel label1, label2, label3, label4; //Variables
     private JButton boton1, boton2; // BotÃ³n para ingresar el PIN
-    public static String [] database = new String[2];
+    public static String [] database = new String[4];
     private int cnt_intentos = 0;
     private boolean notificacion = false;
     
@@ -225,6 +225,8 @@ public class Login extends JFrame implements ActionListener {
                 pw.print(name);
                 pw.print(":");
                 pw.print(pin);
+                pw.print(":");
+                pw.print("true");
                 pw.print(":");
                 pw.print("true");
                 pw.close();

@@ -20,7 +20,7 @@ public class Licencia extends JFrame implements ActionListener, ChangeListener{
     private JButton button1, button2;
     private JScrollPane scrollpane1;
     private JTextArea textarea1;
-    private String[] database = new String[2];
+    private String[] database = new String[4];
 
     public Licencia () {
         
@@ -100,7 +100,7 @@ public class Licencia extends JFrame implements ActionListener, ChangeListener{
             ventanaPrincipal.setResizable(false);
             ventanaPrincipal.setLocationRelativeTo(null);
             // DesktopNotify.showDesktopMessage("Bienvenido a MoneySaving", , DesktopNotify.SUCCESS);
-            JOptionPane.showMessageDialog(null, "Te damos la bienvenida a la mejor aplicación de gestora de ahorros. Disfruta de nuestro servicio :)", "Bienvenido a MoneySaving", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Te damos la bienvenida a la mejor aplicaciï¿½n de gestora de ahorros. Disfruta de nuestro servicio :)", "Bienvenido a MoneySaving", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
         } else if (action.getSource() == button2) {
             try (// Elimina los datos
@@ -116,7 +116,7 @@ public class Licencia extends JFrame implements ActionListener, ChangeListener{
             ventanaLogin.setVisible(true);
             ventanaLogin.setResizable(false);  
             ventanaLogin.setLocationRelativeTo(null);
-            this.dispose(); //dispose() manda a la verga la clase y por tanto también la interfaz
+            this.dispose(); //dispose() manda a la verga la clase y por tanto tambiï¿½n la interfaz
         }
     }
     

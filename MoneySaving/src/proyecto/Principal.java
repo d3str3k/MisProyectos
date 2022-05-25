@@ -12,7 +12,7 @@ import java.util.Scanner;
 import java.awt.TrayIcon.MessageType;
 
 public class Principal extends JFrame implements ActionListener{
-    //Cositas del men√É¬∫
+    //Cositas del men√∫
     private JMenuBar mb;
     private JMenu menuAjustes,menuAcercaDe, menuColor;
     private JMenuItem menuOscuro, menuItemClaro, menuitemTerminos, menuitemRecuperacion, menuItemNotificaciones;
@@ -20,19 +20,19 @@ public class Principal extends JFrame implements ActionListener{
     private JLabel labelLogo,labelBienvenido, labelSavingTips;
     //Botones
     private JButton botonCuenta, botonHucha, botonTriangularAccount, botonHome, botonExit;
-    //√ÉÔøΩrea de texto
+    //√Årea de texto
     private JTextArea textarea1;
     private JScrollPane scrollpane1;
     //
-    private String [] database = new String[2];
+    private String [] database = new String[4];
     //Booleans    
     public static boolean modoOscuro = false; 
-    public static boolean notActivas = true; 
     //Colores
     public static Color layoutColor =new Color(232,248, 245);
     public static Color ButtonColor =new Color(23, 165, 137);
     public static Color wordBlack =new Color(0, 0, 0);            //Para letras sobre el fondo
     public static Color wordWhite =new Color(255,255,255);        //Para letras sobre botones
+    public static boolean notificacionesOn;
 
     Cuenta cuenta = new Cuenta();
     Hucha hucha = new Hucha();
@@ -45,6 +45,8 @@ public class Principal extends JFrame implements ActionListener{
             e.printStackTrace();
         }
         
+        notificacionesOn = Boolean.parseBoolean(database[3]);
+                
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE); //El programa no quedar√É∆í√Ç¬° en segundo plano (muere) cuando se cierra la interfaz
         setTitle("Pantalla principal");
@@ -128,7 +130,7 @@ public class Principal extends JFrame implements ActionListener{
         menuAcercaDe.setForeground(wordWhite);
         mb.add(menuAcercaDe);
 
-        menuitemTerminos = new JMenuItem("TÈrminos y Condiciones");
+        menuitemTerminos = new JMenuItem("TÔøΩrminos y Condiciones");
         menuitemTerminos.setBackground(wordWhite);
         menuitemTerminos.setFont(new Font("Andale Mono", 1, 14));
         menuitemTerminos.setForeground(wordBlack);
@@ -141,7 +143,7 @@ public class Principal extends JFrame implements ActionListener{
         ImageIcon imageIcon = new ImageIcon(getClass().getResource("/images/enigma-logo.png"));
         Image image = imageIcon.getImage();//1
         Image newimage = image.getScaledInstance(200,75, java.awt.Image.SCALE_SMOOTH);//2
-        imageIcon = new ImageIcon(newimage);//estas tres lÌneas sirven para que la imagen se cargue correctamente
+        imageIcon = new ImageIcon(newimage);//estas tres lÔøΩneas sirven para que la imagen se cargue correctamente
         labelLogo = new JLabel(imageIcon);  
         labelLogo.setBounds(330,120,250,100);
         add(labelLogo);
@@ -193,7 +195,7 @@ public class Principal extends JFrame implements ActionListener{
 //-----------------------------------------------------------------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
-//              ¡REA DE TEXTO MONEYSAVING TIPS
+//              ÔøΩREA DE TEXTO MONEYSAVING TIPS
         
         labelSavingTips = new JLabel("SavingTips");  
         labelSavingTips.setBounds(330,230,180,100);
@@ -204,11 +206,12 @@ public class Principal extends JFrame implements ActionListener{
         MoneySavingTips monkey = new MoneySavingTips();
         int rnd = (int) (Math.random() * (monkey.numPhrases - 0)) + 0;
         textarea1 = new JTextArea();
-        textarea1.setEditable(false); // El usuario no podr· modificar el texto que est· dentro de JTextArea
+        textarea1.setEditable(false); // El usuario no podrÔøΩ modificar el texto que estÔøΩ dentro de JTextArea
         textarea1.setFont(new Font("Andale Mono", 0, 9));
         textarea1.setText("\n\n " + monkey.getTips(rnd));
         textarea1.setBackground(ButtonColor);
         textarea1.setForeground(wordWhite);
+        textarea1.setLineWrap(true);
         scrollpane1 = new JScrollPane(textarea1);
         scrollpane1.setBounds(330,300,250,100);
         add(scrollpane1); 
@@ -251,27 +254,22 @@ public class Principal extends JFrame implements ActionListener{
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
-//                      ACCIONES DE MEN⁄ Y BOTONES
+//                      ACCIONES DE MENÔøΩ Y BOTONES
 
     public void actionPerformed(ActionEvent e) {
-        //BOT”N MEN⁄ RECUPERACI”N CONTRASENYA
+        //BOTÔøΩN MENÔøΩ RECUPERACIÔøΩN CONTRASENYA
         if(e.getSource() == menuitemRecuperacion) {
-        	// Recuperacion ventanaRecuperacion = new Recuperacion();
-        	// ventanaRecuperacion.setBounds(0,0,350,450);
-        	// ventanaRecuperacion.setVisible(true);
-        	// ventanaRecuperacion.setResizable(false);
-        	// ventanaRecuperacion.setLocationRelativeTo(null);
-            // this.dispose();
+        	String nuevo_pin = JOptionPane.showInputDialog(null, "Introduzca su nuevo PIN", "Nuevo PIN", JOptionPane.PLAIN_MESSAGE);
         }
-        //BOT”N MEN⁄ T…RMINOS Y CONDICIONES DE SERVICIO
+        //BOTÔøΩN MENÔøΩ TÔøΩRMINOS Y CONDICIONES DE SERVICIO
         if(e.getSource() == menuitemTerminos) {
-            JOptionPane.showMessageDialog(null, "COMO NUEVO USUARIO DEL SISTEMA MONEYSAVING SE COMPROMETE \n    1) A aprobar el proyecto MoneySaving con una nota mÌnma de 5.", "TÈrminos y Condiciones de Servicio", JOptionPane.DEFAULT_OPTION);        
+            JOptionPane.showMessageDialog(null, "COMO NUEVO USUARIO DEL SISTEMA MONEYSAVING SE COMPROMETE \n    1) A aprobar el proyecto MoneySaving con una nota mÔøΩnma de 5.", "TÔøΩrminos y Condiciones de Servicio", JOptionPane.DEFAULT_OPTION);        
         }
-        //BOT”N TRIANGULAR ACCOUNT
+        //BOTÔøΩN TRIANGULAR ACCOUNT
         if(e.getSource() == botonTriangularAccount){
             
         }
-        //BOT”N CUENTA
+        //BOTÔøΩN CUENTA
         if(e.getSource() == botonCuenta){
             cuenta.setBounds(0,0,350,450);
             cuenta.setVisible(true);
@@ -280,7 +278,7 @@ public class Principal extends JFrame implements ActionListener{
             this.dispose();
         }
         
-        //BOT”N HUCHA
+        //BOTÔøΩN HUCHA
         if(e.getSource() == botonHucha){
             // Condicional por si hay hucha o no para acceder a registroHucha o  a hucha
     		File huchaExiste = new File("/databaseHucha.txt");
@@ -356,11 +354,13 @@ public class Principal extends JFrame implements ActionListener{
         } 
         //BOTON NOTIFICACIONES
         if(e.getSource() == menuItemNotificaciones){
-            if(notActivas){
-                notActivas = false;
+            if(notificacionesOn){
+            	notificacionesOn = false;
+            	System.out.println(notificacionesOn);
                 JOptionPane.showMessageDialog(null, "Notificaciones DESACTIVADAS", "Notificaciones", JOptionPane.DEFAULT_OPTION);
-            }else{
-                notActivas = true;
+            }else if (!notificacionesOn){
+            	notificacionesOn = true;
+            	System.out.println(notificacionesOn);
                 JOptionPane.showMessageDialog(null, "Notificaciones ACTIVADAS", "Notificaciones", JOptionPane.DEFAULT_OPTION);
             }
         }
