@@ -3,6 +3,8 @@ package proyecto;
 
 import javax.swing.*;
 
+import proyecto.StopWatch.StopTask;
+
 import java.awt.event.*;
 
 import java.io.File;
@@ -16,15 +18,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import java.util.Timer;
-
-import java.text.DecimalFormat;
-import java.time.LocalDateTime;
-import java.util.Scanner;
+import java.util.TimerTask;
 
 /*
-Problemas:
-- Timer
-*/
+ Problema: el timer se actualiza cuando entras y sales*/
 
 public class Cuenta extends JFrame implements ActionListener {
 
@@ -119,7 +116,6 @@ public class Cuenta extends JFrame implements ActionListener {
         
         // recordatorio();
 
-
      }
 
      public void nuevoIngresoFijo() throws IOException{
@@ -164,18 +160,19 @@ public class Cuenta extends JFrame implements ActionListener {
             
             //Se va a guardar tambien en movimientos para que aparezca en pantalla, pero aqui
             //los minutos no los guardamos pq no nos interesa
+            /*
             File file2 = new File("movimientos.txt");
             if (!file2.exists()){
                 crearFichero();
             }
             FileWriter fw2 = new FileWriter(file2.getAbsoluteFile(), true);
-            fw2.append(conc_ing + "(Fijo)");
+            fw2.append(conc_ing + " (Fijo)");
             fw2.append("\n");
             fw2.append("+" + String.valueOf(cant_ing));
             fw2.append("\n");
             fw2.close();
                         
-            
+            */
             this.remove(scroll);
             lab_movs = new JLabel(recuperarMovimientos());
             scroll = new JScrollPane(lab_movs);
@@ -185,6 +182,7 @@ public class Cuenta extends JFrame implements ActionListener {
             repaint();
             
             cant = recuperarCantTotal();
+            ejecutarIngresoFijo(tiempo*1000*30);
             }
             
      }
@@ -284,6 +282,18 @@ public class Cuenta extends JFrame implements ActionListener {
     return sw.toString();
     }
 
+    public double recuperarCantidadFija() {
+        double cant_fija = 0.0;
+        String ing;
+        try (Scanner sc = new Scanner(new File("databaseIngresoFijo.txt"))) {
+            ing = sc.nextLine();
+            cant_fija = Double.parseDouble(sc.nextLine());
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+    }            
+        return cant_fija;
+    }
+    
     private void crearFichero(){
         File file= new File("movimientos.txt");
         try {
@@ -364,46 +374,87 @@ public class Cuenta extends JFrame implements ActionListener {
         
         cant = recuperarCantTotal();            
     }
+    /*Por un lado tengo el timer que es el "reloj" y por otro el timerTask
+     que es donde se va a ejecutar la tarea.
+     scheduleAtFixedRate tiene como parametros:
+     1. la tarea que quiero que se repita
+     2. cuándo quiero que haga la primera iteración´
+     3. cada cuánto tiempo quiero que se repita*/
+    public void ejecutarIngresoFijo(int minutos){
+    	Timer timer = new Timer();
+    	TimerTask task = new TimerTask() {
+    		@Override
+    		public void run(){
+    			File file = new File("movimientos.txt");
+    	        if (!file.exists()){
+    	            crearFichero();
+    	        }
+    	        FileWriter fw;
+				try {
+					fw = new FileWriter(file.getAbsoluteFile(), true);
+					fw.append(conc_ing + " (Fijo)");
+					fw.append("\n");
+					fw.append("+" + String.valueOf(recuperarCantidadFija()));
+					fw.append("\n");
+					fw.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+    	       
+    	        cant = recuperarCantTotal();
+    			JOptionPane.showMessageDialog(null, "Se ha actualizado un ingreso fijo de " + 
+    			cant_ing + "€ por " + conc_ing);
+    			/*
+    	        this.remove(lab_cant);
+    	        lab_cant = new JLabel(recuperarCantTotal());
+    	        lab_cant.setBounds(150,50,300,30);
+    	        add(lab_cant);
+    	        revalidate();
+    	        repaint();
+    	        */
+    		}
+    	};
+    	timer.scheduleAtFixedRate(task, 0, minutos);
+    }
+    
+    // public void recordatorio() {
+    //     int total = 0;
+    //     String[] concepto;
+    //     String[] cantidad;
+    //     int[] tiempo;
 
-//     public void recordatorio() {
-//         int total = 0;
-//         String[] concepto;
-//         String[] cantidad;
-//         int[] tiempo;
-//
-//         try (Scanner sc = new Scanner(new File("databaseIngresoFijo.txt"))) {
-//             while(sc.hasNextLine()) {
-//                 total += 1;
-//             }
-//             total %= 3;
-//             // concepto = new String[total];
-//             // cantidad = new String[total];
-//             tiempo = new int[total];
-//
-//             try (Scanner sc1 = new Scanner(new File("databaseIngresoFijo.txt"))) {
-//                 for (int i = 0; i < total; i++) {
-//                     // concepto[i] = sc1.nextLine();
-//                     // cantidad[i] = sc1.nextLine();
-//                     tiempo[i] = Integer.parseInt(sc1.nextLine());
-//                     javax.swing.Timer timer = new javax.swing.Timer(tiempo[i]*60*1000, new ActionListener()
-//                     
-//                     {
-//                         @Override
-//                         public void actionPerformed(ActionEvent e) {
-//                             // JOptionPane.showMessageDialog(null, "Ingreso Fijo (" + concepto[i] + ", " + cantidad[i] + ")");
-//                             JOptionPane.showMessageDialog(null, "Ingreso Fijo ");
-//                         }
-//                        
-//                     });
-//                     timer.start();
-//                 }
-//             } catch (FileNotFoundException e) {
-//                 e.printStackTrace();
-//             }
-//         } catch (FileNotFoundException e) {
-//             e.printStackTrace();
-//         }
-//     }
+    //     try (Scanner sc = new Scanner(new File("databaseIngresoFijo.txt"))) {
+    //         while(sc.hasNextLine()) {
+    //             total += 1;
+    //         }
+    //         total %= 3;
+    //         // concepto = new String[total];
+    //         // cantidad = new String[total];
+    //         tiempo = new int[total];
+
+    //         try (Scanner sc1 = new Scanner(new File("databaseIngresoFijo.txt"))) {
+    //             for (int i = 0; i < total; i++) {
+    //                 // concepto[i] = sc1.nextLine();
+    //                 // cantidad[i] = sc1.nextLine();
+    //                 tiempo[i] = Integer.parseInt(sc1.nextLine());
+    //                 javax.swing.Timer timer = new javax.swing.Timer(tiempo[i]*60*1000, new ActionListener() 
+    //                 {
+    //                     @Override
+    //                     public void actionPerformed(ActionEvent e) {
+    //                         // JOptionPane.showMessageDialog(null, "Ingreso Fijo (" + concepto[i] + ", " + cantidad[i] + ")");
+    //                         JOptionPane.showMessageDialog(null, "Ingreso Fijo ");
+    //                     }
+                        
+    //                 });
+    //                 timer.start();
+    //             }
+    //         } catch (FileNotFoundException e) {
+    //             e.printStackTrace();
+    //         }
+    //     } catch (FileNotFoundException e) {
+    //         e.printStackTrace();
+    //     }
+    // }
     
 
 public static void main(String[] args){
