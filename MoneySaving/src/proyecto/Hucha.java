@@ -100,7 +100,20 @@ public class Hucha extends JFrame implements ActionListener {
         label1.setForeground(Principal.wordBlack); //Seleccionar color texto
         add(label1);
         // Label: Valor Cantidad Ritmo Ahorro
-        label4 = new JLabel(df.format(porTiempoF(ritmoAhorro)) + " €/" + ritmoAhorro + "min");
+        
+        double d = porTiempoF(ritmoAhorro, minTotales());
+        
+        try (PrintWriter sc = new PrintWriter(new File("databaseRitmoHucha.txt"))) {
+            sc.print(ritmoAhorro);
+            sc.print("\n");
+            sc.print(d);
+            sc.close();
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+        }
+        
+        
+        label4 = new JLabel(df.format(d) + " €/" + ritmoAhorro + "min");
         label4.setBounds(170,165,150,30);
         label4.setFont(new Font("Andale Mono", 3, 14)); //Seleccionar la fuente, estilo (cursiva,...), tamaño (en píxeles)
         label4.setForeground(Principal.wordBlack); //Seleccionar color texto
@@ -220,9 +233,14 @@ public class Hucha extends JFrame implements ActionListener {
             // timer.setDelay(ritmoAhorro*60*1000); 
             timer.setInitialDelay(ritmoAhorro*60*1000);
             
+            
+            double d = porTiempoF(ritmoAhorro, minTotales());
+            
+            
+            
             // Label: Valor Cantidad Ritmo Ahorro
             this.remove(label4);
-            label4 = new JLabel(df.format(porTiempoF(ritmoAhorro)) + " €/" + ritmoAhorro + "min");
+            label4 = new JLabel(df.format(d) + " €/" + ritmoAhorro + "min");
             label4.setBounds(170,165,150,30);
             label4.setFont(new Font("Andale Mono", 3, 14)); //Seleccionar la fuente, estilo (cursiva,...), tamaño (en píxeles)
             label4.setForeground(Principal.wordBlack); //Seleccionar color texto
@@ -232,6 +250,8 @@ public class Hucha extends JFrame implements ActionListener {
 
             try (PrintWriter sc = new PrintWriter(new File("databaseRitmoHucha.txt"))) {
                 sc.print(choice.getSelectedItem());
+                sc.print("\n");
+                sc.print(d);
                 sc.close();
             } catch (FileNotFoundException e1) {
                 e1.printStackTrace();
@@ -241,20 +261,6 @@ public class Hucha extends JFrame implements ActionListener {
 
         if (e.getSource() == buttonAhorroMas) {
             recalcular(Double.parseDouble(insertMas.getText()));
-
-            // try (PrintWriter sc = new PrintWriter(new File("ahorroAcumuladoHucha.txt"))) {
-            //     sc.print(ahorroAcumulado);
-            //     sc.close();
-            // } catch (FileNotFoundException e1) {
-            //     e1.printStackTrace();
-            // }
-            try {
-                cuenta.gastoHucha(porTiempoF(ritmoAhorro));
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
-            // cuenta.gastoHucha(porTiempoF(ritmoAhorro));
         }
     }
     
@@ -263,16 +269,25 @@ public class Hucha extends JFrame implements ActionListener {
         {
             public void actionPerformed(ActionEvent e)
             {
-                int si = JOptionPane.showConfirmDialog(null, "Desea ahorrar " + df.format(porTiempoF(ritmoAhorro)),
+                double d = 0;
+                try(Scanner sc = new Scanner(new File("databaseRitmoHucha.txt"))) {
+                	sc.nextLine();
+                	d = sc.nextDouble();
+                	sc.close();
+                } catch(FileNotFoundException ex) {
+                	ex.printStackTrace();
+                }
+                int si = JOptionPane.showConfirmDialog(null, "Desea ahorrar " + df.format(d),
                 "Confirmación de ahorro", JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE);
+
                 if (si == 0) {
-                    recalcular(porTiempoF(ritmoAhorro));
+                    recalcular(d);
 
                     ////////////////////////////////////////////
                     // MODIFICAR DINERO EN CUENTA
                     try {
-                        cuenta.gastoHucha(porTiempoF(ritmoAhorro));
+                        cuenta.gastoHucha(d);
                     } catch (IOException e1) {
                         // TODO Auto-generated catch block
                         e1.printStackTrace();
@@ -301,25 +316,34 @@ public class Hucha extends JFrame implements ActionListener {
     //     return df.format((cantidadObjetivo - ahorroAcumulado) / minTotales);
     // }
 
-    private double porTiempoF(int ritmoAhorro) {
-        LocalDateTime dateTime = LocalDateTime.now();
-        int yearRes = date[2] - dateTime.getYear();
-        int monthRes = date[1] - dateTime.getMonthValue();
-        int dayRes = date[0] - dateTime.getDayOfMonth();
-        int hourRes = 24 - dateTime.getHour();
-        int minRes = 60 - dateTime.getMinute();
+    private double porTiempoF(int ritmoAhorro, int minTotales) {
+    	if (ritmoAhorro != 0) {
+            minTotales /= ritmoAhorro;
+            return ((cantidadObjetivo - ahorroAcumulado) / minTotales);
+    	} else {
+    		return 0;
+    	}
 
-        int minTotales =    yearRes*525600 + 
-                            monthRes*43800 +
-                            dayRes*1440 +
-                            hourRes*60 +
-                            minRes;
-        return ((cantidadObjetivo - ahorroAcumulado) / minTotales);
     }
 
     // Metodo para modificar el valor ahorroAcumulado en la base de datos y en la cuenta
     private void recalcular(double d) {
+    	
+    	try(Scanner sc = new Scanner(new File("ahorroAcumuladoHucha.txt"))) {
+    		ahorroAcumulado = sc.nextDouble();
+    		sc.close();
+    	} catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    	
         ahorroAcumulado += d;
+        
+        try {
+			cuenta.gastoHucha(d);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         // Label: Ahorro acumulado cantidad
         this.remove(label2);
@@ -363,6 +387,22 @@ public class Hucha extends JFrame implements ActionListener {
         this.dispose();
 
     }
+    
+    private int minTotales() {
+        LocalDateTime dateTime = LocalDateTime.now();
+        int yearRes = date[2] - dateTime.getYear();
+        int monthRes = date[1] - dateTime.getMonthValue();
+        int dayRes = date[0] - dateTime.getDayOfMonth();
+        int hourRes = 24 - dateTime.getHour();
+        int minRes = 60 - dateTime.getMinute();
+
+        int minTotales =    yearRes*525600 + 
+                            monthRes*43800 +
+                            dayRes*1440 +
+                            hourRes*60 +
+                            minRes;
+        return minTotales;
+    }
 
     private void llenarVariables() {
         try (Scanner sc = new Scanner(new File("databaseHucha.txt"))) {
@@ -385,7 +425,7 @@ public class Hucha extends JFrame implements ActionListener {
         }
         try (Scanner sc = new Scanner(new File("databaseRitmoHucha.txt"))) {
             String a = sc.next();
-            ritmoAhorro = Integer.parseInt(a);
+            ritmoAhorro = Integer.parseInt(a);        	
             sc.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

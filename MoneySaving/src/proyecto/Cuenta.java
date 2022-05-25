@@ -112,7 +112,6 @@ public class Cuenta extends JFrame implements ActionListener {
         add(botonHome);   
         
         
-        // recordatorio();
 
      }
 
@@ -365,55 +364,27 @@ public class Cuenta extends JFrame implements ActionListener {
 					e.printStackTrace();
 				}
     	       
-    	        cant = recuperarCantTotal();
-    	        if(Principal.notificacionesOn) {
-    	        	JOptionPane.showMessageDialog(null, "Se ha actualizado un ingreso fijo de " + 
-    	        			cant_ing + "€ por " + conc_ing);
-    	        }
-    		
+    	        
+    			JOptionPane.showMessageDialog(null, "Se ha actualizado un ingreso fijo de " + 
+    			cant_ing + "€ por " + conc_ing);
+    			cant = recuperarCantTotal();
+    			
+    	        remove(scroll);
+    	        lab_movs = new JLabel(recuperarMovimientos());
+    	        scroll = new JScrollPane(lab_movs);
+    	        scroll.setBounds(20,260,300,50);
+    	        add(scroll);
+    	        revalidate();
+    	        repaint();
+    	        
+    	        lab_cant.setText(Double.toString(recuperarCantTotal()) + "€");
+    			
     		}
+    		
     	};
     	timer.scheduleAtFixedRate(task, 0, minutos);
     }
     
-    // public void recordatorio() {
-    //     int total = 0;
-    //     String[] concepto;
-    //     String[] cantidad;
-    //     int[] tiempo;
-
-    //     try (Scanner sc = new Scanner(new File("databaseIngresoFijo.txt"))) {
-    //         while(sc.hasNextLine()) {
-    //             total += 1;
-    //         }
-    //         total %= 3;
-    //         // concepto = new String[total];
-    //         // cantidad = new String[total];
-    //         tiempo = new int[total];
-
-    //         try (Scanner sc1 = new Scanner(new File("databaseIngresoFijo.txt"))) {
-    //             for (int i = 0; i < total; i++) {
-    //                 // concepto[i] = sc1.nextLine();
-    //                 // cantidad[i] = sc1.nextLine();
-    //                 tiempo[i] = Integer.parseInt(sc1.nextLine());
-    //                 javax.swing.Timer timer = new javax.swing.Timer(tiempo[i]*60*1000, new ActionListener() 
-    //                 {
-    //                     @Override
-    //                     public void actionPerformed(ActionEvent e) {
-    //                         // JOptionPane.showMessageDialog(null, "Ingreso Fijo (" + concepto[i] + ", " + cantidad[i] + ")");
-    //                         JOptionPane.showMessageDialog(null, "Ingreso Fijo ");
-    //                     }
-                        
-    //                 });
-    //                 timer.start();
-    //             }
-    //         } catch (FileNotFoundException e) {
-    //             e.printStackTrace();
-    //         }
-    //     } catch (FileNotFoundException e) {
-    //         e.printStackTrace();
-    //     }
-    // }
     
     //Sinceramente los try y catch no los entiendo pero si los quito me da error
     @Override
