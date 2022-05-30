@@ -9,6 +9,7 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.Scanner;
 
 // import ds.desktop.notify.DesktopNotify;
@@ -94,7 +95,13 @@ public class Licencia extends JFrame implements ActionListener, ChangeListener{
 
     public void actionPerformed (ActionEvent action) {
         if (action.getSource() == button1) {
-            Principal ventanaPrincipal = new Principal();
+            Principal ventanaPrincipal = null;
+			try {
+				ventanaPrincipal = new Principal();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             ventanaPrincipal.setBounds(0,0,640,535);
             ventanaPrincipal.setVisible(true);
             ventanaPrincipal.setResizable(false);

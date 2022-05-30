@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
+import java.text.ParseException;
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -366,7 +367,13 @@ public class Cuenta extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == botonHome) {
-            Principal menu = new Principal();
+            Principal menu = null;
+			try {
+				menu = new Principal();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             menu.setBounds(0,0,640,535);
             menu.setVisible(true);
             menu.setResizable(false);

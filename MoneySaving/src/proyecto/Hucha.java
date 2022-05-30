@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
@@ -15,6 +16,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.awt.*;
 import java.text.SimpleDateFormat;  
 import java.util.Locale;
@@ -227,7 +230,13 @@ public class Hucha extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == botonHome){
             this.dispose();
-            Principal menu = new Principal();
+            Principal menu = null;
+			try {
+				menu = new Principal();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             menu.setBounds(0,0,640,535);
             menu.setVisible(true);
             menu.setResizable(false);
@@ -236,10 +245,7 @@ public class Hucha extends JFrame implements ActionListener {
         if (e.getSource() == buttonRitmoAhorro) {
             // Codigo para modificar el ritmo en la base de datos
             ritmoAhorro = Integer.parseInt(choice.getSelectedItem());
-
-            // timer.setDelay(ritmoAhorro*60*1000); 
-            timer.setInitialDelay(ritmoAhorro*60*1000);
-            
+            recordatorio();
             
             double d = 0;
 			try {
@@ -277,6 +283,44 @@ public class Hucha extends JFrame implements ActionListener {
         }
     }
     
+    public void recordatorio(){
+    	Timer timer = new Timer();
+    	TimerTask task = new TimerTask() {
+    		@Override
+    		public void run(){
+    			 double d = 0;
+                 try(Scanner sc = new Scanner(new File("databaseRitmoHucha.txt"))) {
+                 	sc.nextLine();
+                 	d = sc.nextDouble();
+                 	sc.close();
+                 } catch(FileNotFoundException ex) {
+                 	ex.printStackTrace();
+                 }
+                 int si = JOptionPane.showConfirmDialog(null, "Desea ahorrar " + df.format(d),
+                 "Confirmación de ahorro", JOptionPane.YES_NO_OPTION,
+                 JOptionPane.INFORMATION_MESSAGE);
+
+                 if (si == 0) {
+                     recalcular(d);
+
+                     ////////////////////////////////////////////
+                     // MODIFICAR DINERO EN CUENTA
+                     try {
+                         cuenta.gastoHucha(d);
+                     } catch (IOException e1) {
+                         // TODO Auto-generated catch block
+                         e1.printStackTrace();
+                     }
+                     ////////////////////////////////////////////
+                 }
+    			
+    		}
+    		
+    	};
+    	timer.scheduleAtFixedRate(task, 0, ritmoAhorro*1000);
+    }
+    
+    /*
     public void recordatorio() {
         timer = new Timer (ritmoAhorro*60*1000, new ActionListener ()
         {
@@ -311,23 +355,7 @@ public class Hucha extends JFrame implements ActionListener {
         });
         timer.start();
     }
-    
-    // private String porTiempoS(int ritmoAhorro) {
-    //     LocalDateTime dateTime = LocalDateTime.now();
-    //     int yearRes = date[2] - dateTime.getYear();
-    //     int monthRes = date[1] - dateTime.getMonthValue();
-    //     int dayRes = date[0] - dateTime.getDayOfMonth();
-    //     int hourRes = 24 - dateTime.getHour();
-    //     int minRes = 60 - dateTime.getMinute();
-
-    //     int minTotales =    yearRes*525600 + 
-    //                         monthRes*43800 +
-    //                         dayRes*1440 +
-    //                         hourRes*60 +
-    //                         minRes;
-
-    //     return df.format((cantidadObjetivo - ahorroAcumulado) / minTotales);
-    // }
+    */
 
     private double porTiempoF(int ritmoAhorro, int minTotales) {
     	if (ritmoAhorro != 0) {
@@ -403,38 +431,26 @@ public class Hucha extends JFrame implements ActionListener {
     
     private int minTotales() throws ParseException {
         LocalDateTime dateTime = LocalDateTime.now();
-    	ZoneId defaultZoneId = ZoneId.systemDefault();
-//        int yearRes = date[2] - dateTime.getYear();
-//        int monthRes = date[1] - dateTime.getMonthValue();
-//        int dayRes = date[0] - dateTime.getDayOfMonth();
-//        int hourRes = 24 - dateTime.getHour();
-//        int minRes = 60 - dateTime.getMinute();
-//
-//        int minTotales =    yearRes*525600 + 
-//                            monthRes*43800 +
-//                            dayRes*1440 +
-//                            hourRes*60 +
-//                            minRes;
-        
+    	ZoneId defaultZoneId = ZoneId.systemDefault();     
     	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
         Date firstDate = sdf.parse(date[1] + "/" + date[0] + "/" + date[2]);
         Date secondDate = sdf.parse(dateTime.getMonthValue() + "/" + dateTime.getDayOfMonth() + "/" + dateTime.getYear());
 
-        long diff = secondDate.getTime() - firstDate.getTime();
+        long diff = firstDate.getTime() - secondDate.getTime();
 
         TimeUnit time = TimeUnit.MINUTES; 
-        long diffrence = time.convert(diff, TimeUnit.MILLISECONDS);
-        System.out.println("The difference in minutes is : "+diffrence);
-		return 0;
+        long minTotales = time.convert(diff, TimeUnit.MILLISECONDS);
+        System.out.println("The difference in minutes is : "+minTotales);
+        return (int) minTotales;
 
     }
-
+    
     private void llenarVariables() {
         try (Scanner sc = new Scanner(new File("databaseHucha.txt"))) {
             sc.useDelimiter("[:]");
                 nombreHucha = sc.next();
                 cantidadObjetivo = sc.nextDouble();
-                date[0] = sc.nextInt();fw
+                date[0] = sc.nextInt();
                 date[1] = sc.nextInt();
                 date[2] = sc.nextInt();
                 sc.close();

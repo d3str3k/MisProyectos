@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.Scanner;
 import java.awt.*;
 /*
@@ -131,7 +132,7 @@ public class Login extends JFrame implements ActionListener {
     	return false;
     }
     
-    public void login(String valid_pin, String pin, String name) throws FileNotFoundException {
+    public void login(String valid_pin, String pin, String name) throws FileNotFoundException, ParseException {
     	/* DescripciÃ³n
     	 * El mÃ©todo login va a comprobar 
     	 * 1) si el PIN es vacÃ­o, en cuyo caso mostrarÃ¡ un mensaje pop-up de error
@@ -248,6 +249,9 @@ public class Login extends JFrame implements ActionListener {
             try {
 				login(valid_pin, pin, name);
 			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ParseException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} 

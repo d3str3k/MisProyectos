@@ -8,6 +8,7 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.security.KeyStore.TrustedCertificateEntry;
+import java.text.ParseException;
 import java.util.Scanner;
 import java.awt.TrayIcon.MessageType;
 
@@ -35,9 +36,10 @@ public class Principal extends JFrame implements ActionListener{
     public static boolean notificacionesOn;
 
     Cuenta cuenta = new Cuenta();
-    Hucha hucha = new Hucha();
+    
 
-    public Principal() {
+    public Principal() throws ParseException {
+    	Hucha hucha = new Hucha();
         try (Scanner sc = new Scanner(new File("database.txt"))){
             String aux = sc.next();
             database = aux.split("[:]");
@@ -290,7 +292,14 @@ public class Principal extends JFrame implements ActionListener{
                     excH.printStackTrace();
                 }
                 if (exitsHucha == true) {
-                    hucha.setBounds(0,0,350,450);
+                    Hucha hucha = null;
+					try {
+						hucha = new Hucha();
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					hucha .setBounds(0,0,350,450);
                     hucha.setVisible(true);
                     hucha.setResizable(false);  
                     hucha.setLocationRelativeTo(null); // cuando se inicie la interfaz aparecerÃ¡ en el centro de la pantalla
@@ -389,7 +398,7 @@ public class Principal extends JFrame implements ActionListener{
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
 //                  MAIN
-    public static void main(String args[]) {
+    public static void main(String args[]) throws ParseException {
         Principal ventanaPrincipal = new Principal();
         ventanaPrincipal.setBounds(0,0,640,535);
         ventanaPrincipal.setVisible(true);

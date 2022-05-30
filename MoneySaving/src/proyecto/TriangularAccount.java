@@ -10,7 +10,7 @@ import java.util.*;
 public class TriangularAccount {
 	public String nombre = "";
 	public float cantidad = 0F;
-	public float ajuste = 0F; 
+	public float ajuste = 0F;  
 	public ArrayList<TriangularAccount> a = new ArrayList<TriangularAccount>(MAX);
 	public int tam = 0;
 	public static final int MAX = 10;
