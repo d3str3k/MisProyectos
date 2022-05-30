@@ -7,8 +7,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 import java.awt.*;
+import java.util.Date;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -195,73 +199,91 @@ public class RegistroHucha extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == buttonNext) {
             String name = insertName.getText().trim(); //trim hace que elimina los espacios anteriores al texto
-            String count = insertCount.getText().trim();
+            String count = insertCount.getText().trim();            
             String[] date = new String[3];
             date[0] = insertDay.getText().trim();
             date[1] = insertMonth.getText().trim();
             date[2] = insertYear.getText().trim();
-            String plazo = choice.getSelectedItem();
+            LocalDate fechaAuxiliar = LocalDate.of(Integer.parseInt(date[2]), Integer.parseInt(date[1]), Integer.parseInt(date[0]));
+            LocalDate fechaActual = LocalDate.now();
+            if(fechaAuxiliar.isBefore(fechaActual) || Double.parseDouble(count) <= 0) {
+            	JOptionPane.showMessageDialog(null, "Datos introducidos inválidos", "Error valores introducidos", JOptionPane.ERROR_MESSAGE);
+            } else {
+            	String plazo = choice.getSelectedItem();
 
-            // Introducir en la base de datos los datos anteriores
-    		File file = new File("/databaseHucha.txt");
-    		try {
-                file.createNewFile();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+                // Introducir en la base de datos los datos anteriores
+        		File file = new File("/databaseHucha.txt");
+        		try {
+                    file.createNewFile();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
 
-            try (PrintWriter pw = new PrintWriter("databaseHucha.txt")) {
-                pw.print(name);
-                pw.print(":");
-                pw.print(count);
-                pw.print(":");
-                pw.print(date[0]);
-                pw.print(":");
-                pw.print(date[1]);
-                pw.print(":");
-                pw.print(date[2]);
-                pw.print(":");
-            } catch (FileNotFoundException exc) {
-                exc.printStackTrace();
-            }
+                try (PrintWriter pw = new PrintWriter("databaseHucha.txt")) {
+                    pw.print(name);
+                    pw.print(":");
+                    pw.print(count);
+                    pw.print(":");
+                    pw.print(date[0]);
+                    pw.print(":");
+                    pw.print(date[1]);
+                    pw.print(":");
+                    pw.print(date[2]);
+                    pw.print(":");
+                } catch (FileNotFoundException exc) {
+                    exc.printStackTrace();
+                }
 
-            File file2 = new File("/ahorroAcumuladoHucha.txt");
-    		try {
-                file2.createNewFile();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+                File file2 = new File("/ahorroAcumuladoHucha.txt");
+        		try {
+                    file2.createNewFile();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
 
-            try (PrintWriter pw = new PrintWriter("ahorroAcumuladoHucha.txt")) {
-                pw.print(0);
-            } catch (FileNotFoundException excp) {
-                excp.printStackTrace();
-            }
+                try (PrintWriter pw = new PrintWriter("ahorroAcumuladoHucha.txt")) {
+                    pw.print(0);
+                } catch (FileNotFoundException excp) {
+                    excp.printStackTrace();
+                }
 
-            File file3 = new File("/databaseRitmoHucha.txt");
-    		try {
-                file3.createNewFile();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+                File file3 = new File("/databaseRitmoHucha.txt");
+        		try {
+                    file3.createNewFile();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
 
-            try (PrintWriter pw = new PrintWriter("databaseRitmoHucha.txt")) {
-                pw.write(plazo);
-            } catch (FileNotFoundException excp) {
-                excp.printStackTrace();
-            }
+                try (PrintWriter pw = new PrintWriter("databaseRitmoHucha.txt")) {
+                    pw.write(plazo);
+                } catch (FileNotFoundException excp) {
+                    excp.printStackTrace();
+                }
 
-            Hucha ventanaH = new Hucha();
-            ventanaH.setBounds(0,0,350,450);
-            ventanaH.setVisible(true);
-            ventanaH.setResizable(false);
-            ventanaH.setLocationRelativeTo(null); // cuando se inicie la interfaz aparecerá en el centro de la pantalla
-            ventanaH.recordatorio();
-            this.dispose();
+                Hucha ventanaH = null;
+				try {
+					ventanaH = new Hucha();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+                ventanaH.setBounds(0,0,350,450);
+                ventanaH.setVisible(true);
+                ventanaH.setResizable(false);
+                ventanaH.setLocationRelativeTo(null); // cuando se inicie la interfaz aparecerá en el centro de la pantalla
+                ventanaH.recordatorio();
+                this.dispose();
+            }          
 
         }
         if(e.getSource() == botonHome){
-            Principal menu = new Principal();
+            Principal menu = null;
+			try {
+				menu = new Principal();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             menu.setBounds(0,0,640,535);
             menu.setVisible(true);
             menu.setResizable(false);

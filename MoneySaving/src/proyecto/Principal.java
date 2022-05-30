@@ -221,7 +221,7 @@ public class Principal extends JFrame implements ActionListener{
 //              NOTIFICACIONES
 
 
-    File huchaExiste = new File("/databaseHucha.txt");
+    File huchaExiste = new File("databaseHucha.txt");
     if (huchaExiste.exists()) {
         boolean exitsHucha = false;
         try (Scanner sc = new Scanner(new File("databaseHucha.txt"))) {
@@ -234,7 +234,7 @@ public class Principal extends JFrame implements ActionListener{
         } 
     }
 
-    File cuentaExiste = new File("/databaseIngresoFijo.txt");
+    File cuentaExiste = new File("databaseIngresoFijo.txt");
     if (huchaExiste.exists()) {
         boolean exitsHucha = false;
         try (Scanner sc = new Scanner(new File("databaseIngresoFijo.txt"))) {
@@ -281,7 +281,7 @@ public class Principal extends JFrame implements ActionListener{
         //BOT�N HUCHA
         if(e.getSource() == botonHucha){
             // Condicional por si hay hucha o no para acceder a registroHucha o  a hucha
-    		File huchaExiste = new File("/databaseHucha.txt");
+    		File huchaExiste = new File("databaseHucha.txt");
             if (huchaExiste.exists()) {
                 boolean exitsHucha = false;
                 try (Scanner sc = new Scanner(new File("databaseHucha.txt"))) {

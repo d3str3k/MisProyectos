@@ -8,10 +8,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Scanner;
 import java.awt.*;
+import java.text.SimpleDateFormat;  
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 
 public class Hucha extends JFrame implements ActionListener {
@@ -35,7 +42,7 @@ public class Hucha extends JFrame implements ActionListener {
 
     DecimalFormat df = new DecimalFormat("#.#####");
 
-    public Hucha() {
+    public Hucha() throws ParseException {
         llenarVariables();
 
         //////////////////////////////////////////////// INTERFAZ ///////////////////////////////////////////////////
@@ -234,7 +241,13 @@ public class Hucha extends JFrame implements ActionListener {
             timer.setInitialDelay(ritmoAhorro*60*1000);
             
             
-            double d = porTiempoF(ritmoAhorro, minTotales());
+            double d = 0;
+			try {
+				d = porTiempoF(ritmoAhorro, minTotales());
+			} catch (ParseException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
             
             
             
@@ -388,20 +401,32 @@ public class Hucha extends JFrame implements ActionListener {
 
     }
     
-    private int minTotales() {
+    private int minTotales() throws ParseException {
         LocalDateTime dateTime = LocalDateTime.now();
-        int yearRes = date[2] - dateTime.getYear();
-        int monthRes = date[1] - dateTime.getMonthValue();
-        int dayRes = date[0] - dateTime.getDayOfMonth();
-        int hourRes = 24 - dateTime.getHour();
-        int minRes = 60 - dateTime.getMinute();
+    	ZoneId defaultZoneId = ZoneId.systemDefault();
+//        int yearRes = date[2] - dateTime.getYear();
+//        int monthRes = date[1] - dateTime.getMonthValue();
+//        int dayRes = date[0] - dateTime.getDayOfMonth();
+//        int hourRes = 24 - dateTime.getHour();
+//        int minRes = 60 - dateTime.getMinute();
+//
+//        int minTotales =    yearRes*525600 + 
+//                            monthRes*43800 +
+//                            dayRes*1440 +
+//                            hourRes*60 +
+//                            minRes;
+        
+    	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+        Date firstDate = sdf.parse(date[1] + "/" + date[0] + "/" + date[2]);
+        Date secondDate = sdf.parse(dateTime.getMonthValue() + "/" + dateTime.getDayOfMonth() + "/" + dateTime.getYear());
 
-        int minTotales =    yearRes*525600 + 
-                            monthRes*43800 +
-                            dayRes*1440 +
-                            hourRes*60 +
-                            minRes;
-        return minTotales;
+        long diff = secondDate.getTime() - firstDate.getTime();
+
+        TimeUnit time = TimeUnit.MINUTES; 
+        long diffrence = time.convert(diff, TimeUnit.MILLISECONDS);
+        System.out.println("The difference in minutes is : "+diffrence);
+		return 0;
+
     }
 
     private void llenarVariables() {
@@ -409,7 +434,7 @@ public class Hucha extends JFrame implements ActionListener {
             sc.useDelimiter("[:]");
                 nombreHucha = sc.next();
                 cantidadObjetivo = sc.nextDouble();
-                date[0] = sc.nextInt();
+                date[0] = sc.nextInt();fw
                 date[1] = sc.nextInt();
                 date[2] = sc.nextInt();
                 sc.close();
@@ -433,8 +458,7 @@ public class Hucha extends JFrame implements ActionListener {
 
     }
 
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         Hucha ventanaH = new Hucha();
         ventanaH.setBounds(0,0,350,450);
         ventanaH.setVisible(true);
