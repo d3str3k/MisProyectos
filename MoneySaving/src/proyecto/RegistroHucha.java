@@ -198,12 +198,18 @@ public class RegistroHucha extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == buttonNext) {
+        
             String name = insertName.getText().trim(); //trim hace que elimina los espacios anteriores al texto
             String count = insertCount.getText().trim();            
             String[] date = new String[3];
             date[0] = insertDay.getText().trim();
             date[1] = insertMonth.getText().trim();
             date[2] = insertYear.getText().trim();
+            if(Integer.parseInt(date[0]) < 0  || Integer.parseInt(date[0]) > 31 ||
+            		Integer.parseInt(date[1]) < 0 || Integer.parseInt(date[1]) > 12 ||
+            		Integer.parseInt(date[2]) < 0) {
+            	JOptionPane.showMessageDialog(null, "Datos introducidos inválidos", "Error valores introducidos", JOptionPane.ERROR_MESSAGE);
+            }
             LocalDate fechaAuxiliar = LocalDate.of(Integer.parseInt(date[2]), Integer.parseInt(date[1]), Integer.parseInt(date[0]));
             LocalDate fechaActual = LocalDate.now();
             if(fechaAuxiliar.isBefore(fechaActual) || Double.parseDouble(count) <= 0) {
