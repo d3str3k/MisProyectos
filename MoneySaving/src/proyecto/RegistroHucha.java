@@ -42,7 +42,7 @@ public class RegistroHucha extends JFrame implements ActionListener {
 
     public RegistroHucha() {
         setLayout(null);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Se cerrará solo esta ventana
+        setDefaultCloseOperation(EXIT_ON_CLOSE); // Se cerrará solo esta ventana
         // La interfaz gr�fica tiene 3 caracter�sticas fuera de los componentes: el título, un icono y el background. Estos componentes se indican en el constructor
         setTitle("Hucha"); //Inserta el t�tulo
         getContentPane().setBackground(Principal.layoutColor); //Selecciona el color del background con un RGB
@@ -212,7 +212,7 @@ public class RegistroHucha extends JFrame implements ActionListener {
             }
             LocalDate fechaAuxiliar = LocalDate.of(Integer.parseInt(date[2]), Integer.parseInt(date[1]), Integer.parseInt(date[0]));
             LocalDate fechaActual = LocalDate.now();
-            if(fechaAuxiliar.isBefore(fechaActual) || Double.parseDouble(count) <= 0) {
+            if(fechaAuxiliar.isBefore(fechaActual) || Double.parseDouble(count) <= 0 || fechaAuxiliar.isEqual(fechaActual)) {
             	JOptionPane.showMessageDialog(null, "Datos introducidos inválidos", "Error valores introducidos", JOptionPane.ERROR_MESSAGE);
             } else {
             	String plazo = choice.getSelectedItem();
@@ -267,12 +267,7 @@ public class RegistroHucha extends JFrame implements ActionListener {
                 }
 
                 Hucha ventanaH = null;
-				try {
-					ventanaH = new Hucha();
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				ventanaH = new Hucha();
                 ventanaH.setBounds(0,0,350,450);
                 ventanaH.setVisible(true);
                 ventanaH.setResizable(false);
@@ -288,12 +283,14 @@ public class RegistroHucha extends JFrame implements ActionListener {
 				menu = new Principal();
 			} catch (ParseException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
 			}
             menu.setBounds(0,0,640,535);
             menu.setVisible(true);
             menu.setResizable(false);
             menu.setLocationRelativeTo(null);
+            this.dispose();
         }
     }
 

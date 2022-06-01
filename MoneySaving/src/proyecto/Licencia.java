@@ -100,7 +100,10 @@ public class Licencia extends JFrame implements ActionListener, ChangeListener{
 				ventanaPrincipal = new Principal();
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				;
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				;
 			}
             ventanaPrincipal.setBounds(0,0,640,535);
             ventanaPrincipal.setVisible(true);

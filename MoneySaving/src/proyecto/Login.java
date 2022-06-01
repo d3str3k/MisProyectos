@@ -184,6 +184,8 @@ public class Login extends JFrame implements ActionListener {
                 ventanaPrincipal.setVisible(true);
                 ventanaPrincipal.setResizable(false);
                 ventanaPrincipal.setLocationRelativeTo(null);
+                ventanaPrincipal.comprobarIngresosFijos();
+                ventanaPrincipal.comprobarHucha();	
                 this.dispose();            
             } else if (pin.equals(valid_pin) && registered == true) {
                 Licencia ventanaLicencia = new Licencia();

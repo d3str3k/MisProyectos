@@ -45,13 +45,13 @@ public class Hucha extends JFrame implements ActionListener {
 
     DecimalFormat df = new DecimalFormat("#.#####");
 
-    public Hucha() throws ParseException {
+    public Hucha() {
         llenarVariables();
 
         //////////////////////////////////////////////// INTERFAZ ///////////////////////////////////////////////////
 
         setLayout(null);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Se cerrará solo esta ventana
+        setDefaultCloseOperation(EXIT_ON_CLOSE); // Se cerrará solo esta ventana
         // La interfaz gr�fica tiene 3 caracter�sticas fuera de los componentes: el título, un icono y el background. Estos componentes se indican en el constructor
         setTitle("Hucha"); //Inserta el t�tulo
         getContentPane().setBackground(Principal.layoutColor); //Selecciona el color del background con un RGB
@@ -229,31 +229,28 @@ public class Hucha extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == botonHome){
-            this.dispose();
             Principal menu = null;
 			try {
 				menu = new Principal();
 			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+
+			} catch (FileNotFoundException e1) {
+			
 			}
             menu.setBounds(0,0,640,535);
             menu.setVisible(true);
             menu.setResizable(false);
             menu.setLocationRelativeTo(null);
+            this.dispose();
         }
         if (e.getSource() == buttonRitmoAhorro) {
             // Codigo para modificar el ritmo en la base de datos
             ritmoAhorro = Integer.parseInt(choice.getSelectedItem());
+            timer.cancel();
             recordatorio();
             
             double d = 0;
-			try {
-				d = porTiempoF(ritmoAhorro, minTotales());
-			} catch (ParseException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			}
+			d = porTiempoF(ritmoAhorro, minTotales());
             
             
             
@@ -280,18 +277,21 @@ public class Hucha extends JFrame implements ActionListener {
 
         if (e.getSource() == buttonAhorroMas) {
             recalcular(Double.parseDouble(insertMas.getText()));
+            if(ahorroAcumulado >= cantidadObjetivo) {
+            	quitarHucha();
+            }
         }
     }
     
     public void recordatorio(){
-    	Timer timer = new Timer();
+    	timer = new Timer();
     	TimerTask task = new TimerTask() {
     		@Override
     		public void run(){
     			 double d = 0;
                  try(Scanner sc = new Scanner(new File("databaseRitmoHucha.txt"))) {
                  	sc.nextLine();
-                 	d = sc.nextDouble();
+                 	d = Double.parseDouble(sc.nextLine());
                  	sc.close();
                  } catch(FileNotFoundException ex) {
                  	ex.printStackTrace();
@@ -302,6 +302,9 @@ public class Hucha extends JFrame implements ActionListener {
 
                  if (si == 0) {
                      recalcular(d);
+                     if(ahorroAcumulado >= cantidadObjetivo) {
+                    	 quitarHucha();
+                     }
 
                      ////////////////////////////////////////////
                      // MODIFICAR DINERO EN CUENTA
@@ -312,12 +315,15 @@ public class Hucha extends JFrame implements ActionListener {
                          e1.printStackTrace();
                      }
                      ////////////////////////////////////////////
+                 } else {
+                     recalcular(d);
+
                  }
     			
     		}
     		
     	};
-    	timer.scheduleAtFixedRate(task, 0, ritmoAhorro*1000);
+    	timer.scheduleAtFixedRate(task, 0, ritmoAhorro*1000*30);
     }
     
     /*
@@ -371,7 +377,7 @@ public class Hucha extends JFrame implements ActionListener {
     private void recalcular(double d) {
     	
     	try(Scanner sc = new Scanner(new File("ahorroAcumuladoHucha.txt"))) {
-    		ahorroAcumulado = sc.nextDouble();
+    		ahorroAcumulado = Double.parseDouble(sc.next());
     		sc.close();
     	} catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -416,25 +422,43 @@ public class Hucha extends JFrame implements ActionListener {
 
     // Se borran los datos del databaseHucha y se cierra la ventana Hucha
     private void quitarHucha() {
-        try (Scanner sc = new Scanner(new File("databaseHucha.txt"))) {
-            sc.useDelimiter("[:]");
-            while (sc.hasNext()) {
-                sc.remove();
-                sc.close();
-            }
+        try (// Elimina los datos
+            PrintWriter pw = new PrintWriter("databaseHucha.txt")) {
+            pw.write("");
+            pw.close();
         } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        
+        Principal ventanaPrincipal = null;
+		try {
+			ventanaPrincipal = new Principal();
+		} catch (ParseException e1) {
+
+		} catch (FileNotFoundException e1) {
+		
+		}
+		ventanaPrincipal.setBounds(0,0,640,535);
+		ventanaPrincipal.setVisible(true);
+		ventanaPrincipal.setResizable(false);
+		ventanaPrincipal.setLocationRelativeTo(null);
+        timer.cancel();
         this.dispose();
 
     }
     
-    private int minTotales() throws ParseException {
+    private int minTotales() {
         LocalDateTime dateTime = LocalDateTime.now();
     	ZoneId defaultZoneId = ZoneId.systemDefault();     
     	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
-        Date firstDate = sdf.parse(date[1] + "/" + date[0] + "/" + date[2]);
-        Date secondDate = sdf.parse(dateTime.getMonthValue() + "/" + dateTime.getDayOfMonth() + "/" + dateTime.getYear());
+        Date firstDate = null, secondDate = null;
+		try {
+			firstDate = sdf.parse(date[1] + "/" + date[0] + "/" + date[2]);
+	        secondDate = sdf.parse(dateTime.getMonthValue() + "/" + dateTime.getDayOfMonth() + "/" + dateTime.getYear());
+		} catch (ParseException e) {
+
+		}
 
         long diff = firstDate.getTime() - secondDate.getTime();
 

@@ -35,11 +35,10 @@ public class Principal extends JFrame implements ActionListener{
     public static Color wordWhite =new Color(255,255,255);        //Para letras sobre botones
     public static boolean notificacionesOn;
 
-    Cuenta cuenta = new Cuenta();
-    
+    public static Cuenta cuenta = new Cuenta();
+	public static Hucha hucha = new Hucha();
 
-    public Principal() throws ParseException {
-    	Hucha hucha = new Hucha();
+    public Principal() throws ParseException, FileNotFoundException {
         try (Scanner sc = new Scanner(new File("database.txt"))){
             String aux = sc.next();
             database = aux.split("[:]");
@@ -223,33 +222,6 @@ public class Principal extends JFrame implements ActionListener{
 //              NOTIFICACIONES
 
 
-    File huchaExiste = new File("databaseHucha.txt");
-    if (huchaExiste.exists()) {
-        boolean exitsHucha = false;
-        try (Scanner sc = new Scanner(new File("databaseHucha.txt"))) {
-            if (sc.hasNext())   exitsHucha = true;
-        } catch (FileNotFoundException excH) {
-            excH.printStackTrace();
-        }
-        if (exitsHucha == true) {
-            hucha.recordatorio();
-        } 
-    }
-
-    File cuentaExiste = new File("databaseIngresoFijo.txt");
-    if (huchaExiste.exists()) {
-        boolean exitsHucha = false;
-        try (Scanner sc = new Scanner(new File("databaseIngresoFijo.txt"))) {
-            if (sc.hasNext())   exitsHucha = true;
-        } catch (FileNotFoundException excH) {
-            excH.printStackTrace();
-        }
-        if (exitsHucha == true) {
-        //    cuenta.recordatorio();
-        } 
-    }
-
-
     }
 //-----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -293,24 +265,19 @@ public class Principal extends JFrame implements ActionListener{
                 }
                 if (exitsHucha == true) {
                     Hucha hucha = null;
-					try {
-						hucha = new Hucha();
-					} catch (ParseException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					hucha = new Hucha();
 					hucha .setBounds(0,0,350,450);
                     hucha.setVisible(true);
                     hucha.setResizable(false);  
                     hucha.setLocationRelativeTo(null); // cuando se inicie la interfaz aparecerÃ¡ en el centro de la pantalla
-                    this.dispose();
+                    this.setVisible(false);
                 } else {
                     RegistroHucha ventanaRH = new RegistroHucha();
                     ventanaRH.setBounds(0,0,350,450);
                     ventanaRH.setVisible(true);
                     ventanaRH.setResizable(false);  
                     ventanaRH.setLocationRelativeTo(null);                    
-                    this.dispose();
+                    this.setVisible(false);
                 }
             } else {
                 RegistroHucha ventanaRH = new RegistroHucha();
@@ -394,11 +361,54 @@ public class Principal extends JFrame implements ActionListener{
         	//Incluir Paleta del fondo Claro
        // }
     // }
-    //Las paletas de colores se crean ahÃƒÂ­ con unas variables declaradas y ya simplemente es poner cada varible en donde corresponda, que en base a la opciÃƒÂ³n los colores se seleccionan solos
+    //Las paletas de colores se crean ahÃƒÂ­ con unas variables declaradas y ya simplemente es poner cada varible en donde corresponda, que en base a la opciÃƒÂ³n los colores se seleccionan solos    
+    
 
+    public void comprobarIngresosFijos() throws FileNotFoundException {
+    	File cuentaExiste = new File("databaseIngresoFijo.txt");
+ 	    if (cuentaExiste.exists()) {
+ 	        boolean existsCuenta = false;
+ 	        try (Scanner sc = new Scanner(new File("databaseIngresoFijo.txt"))) {
+ 	            if (sc.hasNext())   existsCuenta = true;
+ 	        } catch (FileNotFoundException excH) {
+ 	        	;
+ 	        }
+ 	        if (existsCuenta == true) {
+ 	        	try (Scanner sc = new Scanner(new File("databaseIngresoFijo.txt"))){
+ 	        		cuenta.conc_ing = sc.nextLine();
+ 	        		cuenta.cant_ing = Double.parseDouble(sc.nextLine());
+ 	        		int tiempo = Integer.parseInt(sc.nextLine());
+ 	        		try {
+						cuenta.nuevoIngresoFijo(tiempo);
+					} catch (FileNotFoundException e) {
+				
+					}
+ 	        	}
+ 	        
+ 	        } 
+ 	    }
+    }
+    
+    public void comprobarHucha() throws FileNotFoundException {
+
+	    File huchaExiste = new File("databaseHucha.txt");
+	    if (huchaExiste.exists()) {
+	        boolean exitsHucha = false;
+	        try (Scanner sc = new Scanner(new File("databaseHucha.txt"))) {
+	            if (sc.hasNext())   exitsHucha = true;
+	        } catch (FileNotFoundException excH) {
+	            excH.printStackTrace();
+	        }
+	        if (exitsHucha == true) {
+	            hucha.recordatorio();
+	        } 
+	    }
+	
+    }
+    
 //-----------------------------------------------------------------------------------------------------------------------------------------
 //                  MAIN
-    public static void main(String args[]) throws ParseException {
+    public static void main(String args[]) throws ParseException, FileNotFoundException {
         Principal ventanaPrincipal = new Principal();
         ventanaPrincipal.setBounds(0,0,640,535);
         ventanaPrincipal.setVisible(true);

@@ -31,8 +31,8 @@ public class Cuenta extends JFrame implements ActionListener {
     private JLabel lab_cuenta, lab_cant, lab_movimientos, lab_movs; //texto
 
     private double cant = 0.0; //variable donde almaceno cantidad total
-    private double cant_ing, cant_gas; //ingresos y gastos
-    private String conc_ing, conc_gas; //conceptos
+    public double cant_ing, cant_gas; //ingresos y gastos
+    public String conc_ing, conc_gas; //conceptos
 
 
     //ScrollPane
@@ -111,31 +111,37 @@ public class Cuenta extends JFrame implements ActionListener {
 
      }
 
-     public void nuevoIngresoFijo() throws IOException{
-        int tiempo = 0;
-        String[] options = new String[] {"1", "2", "5"};
-                    cant_ing = Double.parseDouble(JOptionPane.showInputDialog("Introduzca ingreso"));
-            if(cant_ing<=0){
-                JOptionPane.showMessageDialog(this, "Cantidad incorrecta");
-            }
-            else{
-                conc_ing = JOptionPane.showInputDialog("Introduzca el concepto");
-                cant += cant_ing;
-                
-                int response = JOptionPane.showOptionDialog(null, "¿Cada cuántos minutos desea actualizarlo?", "Nuevo ingreso fijo",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-                null, options, options[0]);
-                //en response se guarda la posicion del array que se ha escogido,
-                //pero nosotros queremos los minutos, asi que eso es lo que vamos a almacenar
-                if (response == 0){
-                    tiempo = 1;
-                }
-                else if(response == 1){
-                    tiempo = 2;
-                }
-                else if(response == 2){
-                    tiempo = 5;
-                }
+     public void auxiliar() throws IOException {
+    	 int tiempo = 0;
+         String[] options = new String[] {"1", "2", "5"};
+         cant_ing = Double.parseDouble(JOptionPane.showInputDialog("Introduzca ingreso"));
+         if(cant_ing<=0){
+             JOptionPane.showMessageDialog(this, "Cantidad incorrecta");
+         }
+         else{
+             conc_ing = JOptionPane.showInputDialog("Introduzca el concepto");
+             cant += cant_ing;
+             
+             int response = JOptionPane.showOptionDialog(null, "¿Cada cuántos minutos desea actualizarlo?", "Nuevo ingreso fijo",
+             JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+             null, options, options[0]);
+             //en response se guarda la posicion del array que se ha escogido,
+             //pero nosotros queremos los minutos, asi que eso es lo que vamos a almacenar
+             if (response == 0){
+                 tiempo = 1;
+             }
+             else if(response == 1){
+                 tiempo = 2;
+             }
+             else if(response == 2){
+                 tiempo = 5;
+             }
+             this.nuevoIngresoFijo(tiempo);
+         }
+     }
+
+     public void nuevoIngresoFijo(int tiempo) throws FileNotFoundException {
+        
             //aqui guardaremos concepto, cantidad y minutos (cada uno en una linea distinta)
             File file = new File("databaseIngresoFijo.txt");
             if (!file.exists()){
@@ -154,9 +160,49 @@ public class Cuenta extends JFrame implements ActionListener {
             actualizarLabelMovs();
             
             cant = recuperarCantTotal();
-            ejecutarIngresoFijo(tiempo*1000*30);
-            }
-            
+            ejecutarIngresoFijo(tiempo*1000*30);            
+     }
+     
+     public void ejecutarIngresoFijo(int minutos){
+     	Timer timer = new Timer();
+     	TimerTask task = new TimerTask() {
+     		@Override
+     		public void run(){
+     			File file = new File("movimientos.txt");
+     	        if (!file.exists()){
+     	            crearFichero();
+     	        }
+     	        FileWriter fw;
+ 				try {
+ 					fw = new FileWriter(file.getAbsoluteFile(), true);
+ 					fw.append(conc_ing + " (Fijo)");
+ 					fw.append("\n");
+ 					fw.append("+" + String.valueOf(recuperarCantidadFija()));
+ 					fw.append("\n");
+ 					fw.close();
+ 				} catch (IOException e) {
+ 					e.printStackTrace();
+ 				}
+     	       
+     	        
+     			JOptionPane.showMessageDialog(null, "Se ha actualizado un ingreso fijo de " + 
+     			cant_ing + "€ por " + conc_ing);
+     			cant = recuperarCantTotal();
+     			
+     	        remove(scroll);
+     	        lab_movs = new JLabel(recuperarMovimientos());
+     	        scroll = new JScrollPane(lab_movs);
+     	        scroll.setBounds(20,260,300,50);
+     	        add(scroll);
+     	        revalidate();
+     	        repaint();
+     	        
+     	        lab_cant.setText(Double.toString(recuperarCantTotal()) + "€");
+     			
+     		}
+     		
+     	};
+     	timer.scheduleAtFixedRate(task, 0, minutos);
      }
      
 
@@ -322,47 +368,7 @@ public class Cuenta extends JFrame implements ActionListener {
     /*Por un lado tengo el timer que es el "reloj" y por otro el timerTask
      que es donde se va a ejecutar la tarea.
      */
-    public void ejecutarIngresoFijo(int minutos){
-    	Timer timer = new Timer();
-    	TimerTask task = new TimerTask() {
-    		@Override
-    		public void run(){
-    			File file = new File("movimientos.txt");
-    	        if (!file.exists()){
-    	            crearFichero();
-    	        }
-    	        FileWriter fw;
-				try {
-					fw = new FileWriter(file.getAbsoluteFile(), true);
-					fw.append(conc_ing + " (Fijo)");
-					fw.append("\n");
-					fw.append("+" + String.valueOf(recuperarCantidadFija()));
-					fw.append("\n");
-					fw.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-    	       
-    	        
-    			JOptionPane.showMessageDialog(null, "Se ha actualizado un ingreso fijo de " + 
-    			cant_ing + "€ por " + conc_ing);
-    			cant = recuperarCantTotal();
-    			
-    	        remove(scroll);
-    	        lab_movs = new JLabel(recuperarMovimientos());
-    	        scroll = new JScrollPane(lab_movs);
-    	        scroll.setBounds(20,260,300,50);
-    	        add(scroll);
-    	        revalidate();
-    	        repaint();
-    	        
-    	        lab_cant.setText(Double.toString(recuperarCantTotal()) + "€");
-    			
-    		}
-    		
-    	};
-    	timer.scheduleAtFixedRate(task, 0, minutos);
-    }
+    
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -372,7 +378,8 @@ public class Cuenta extends JFrame implements ActionListener {
 				menu = new Principal();
 			} catch (ParseException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
 			}
             menu.setBounds(0,0,640,535);
             menu.setVisible(true);
@@ -398,7 +405,7 @@ public class Cuenta extends JFrame implements ActionListener {
         }
         else if(e.getSource() == btn_fijo){
             try {
-                nuevoIngresoFijo();
+                auxiliar();
             } catch (IOException ex) {
                 Logger.getLogger(Cuenta.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -406,11 +413,11 @@ public class Cuenta extends JFrame implements ActionListener {
         }
     }
     
-public static void main(String[] args){
-    Cuenta c = new Cuenta();
-        c.setBounds(0,0,350,450);
-        c.setVisible(true);
-        c.setResizable(false);  
-        c.setLocationRelativeTo(null);
-}
+	public static void main(String[] args){
+	    Cuenta c = new Cuenta();
+	        c.setBounds(0,0,350,450);
+	        c.setVisible(true);
+	        c.setResizable(false);  
+	        c.setLocationRelativeTo(null);
+	}
 }
