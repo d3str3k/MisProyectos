@@ -381,7 +381,7 @@ public class Cuenta extends JFrame implements ActionListener {
             this.dispose();
         }
         else if(e.getSource() == btn_ing){
-            try {//Testin
+            try {//Testing
                 nuevoIngreso();
             } catch (IOException ex) {
                 Logger.getLogger(Cuenta.class.getName()).log(Level.SEVERE, null, ex);
