@@ -1,0 +1,30 @@
+#!/bin/bash 
+
+hucha="databaseHucha.txt"
+ritmo="databaseRitmoHucha.txt"
+ahorro="ahorroAcumuladoHucha.txt"
+login="database.txt"
+rec="recuperacion.txt"
+fijos="databaseIngresoFijo.txt"
+mov="movimientos.txt"
+
+if [ $# -gt 0 ]
+then
+	echo "[?] Usa el programa dentro del directorio para subir todos los archivos contenidos en él"
+else
+
+	for i in *
+	do
+  	if [ $i != $hucha ]  && [ $i != ritmo ] && [ $i != ahorro ] && [ $i != login ] && [ $i != rec ] && [ $i != fijos ] && [ $i != mov ]
+  	then
+        	git add $i
+        	echo "[+] Archivo añadido: $i"
+  	else
+        	echo "[+] Ignorando el archivo $i"
+  	fi
+	done
+
+	git commit -m "Automated git"
+	git push
+
+fi
