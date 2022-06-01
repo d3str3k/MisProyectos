@@ -15,7 +15,7 @@ else
 
 	for i in *
 	do
-  	if [ $i != $hucha ]  && [ $i != ritmo ] && [ $i != ahorro ] && [ $i != login ] && [ $i != rec ] && [ $i != fijos ] && [ $i != mov ]
+  	if [ $i != $hucha ]  && [ $i != $ritmo ] && [ $i != $ahorro ] && [ $i != $login ] && [ $i != $rec ] && [ $i != $fijos ] && [ $i != $mov ]
   	then
         	git add $i
         	echo "[+] Archivo añadido: $i"
