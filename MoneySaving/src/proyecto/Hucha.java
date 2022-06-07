@@ -46,7 +46,7 @@ public class Hucha extends JFrame implements ActionListener {
     DecimalFormat df = new DecimalFormat("#.#####");
 
     public Hucha() {
-        llenarVariables();
+        //llenarVariables(); DA ERRORES DE COMPILACIÓN
 
         //////////////////////////////////////////////// INTERFAZ ///////////////////////////////////////////////////
 
